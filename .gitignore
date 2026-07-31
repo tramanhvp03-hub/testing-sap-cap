@@ -1,0 +1,44 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+gen/
+srv/gen/
+db/gen/
+
+# Environment & credentials
+.env
+default-env.json
+*.env.*
+
+# Logs
+*.log
+logs/
+*.out
+*.err
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+
+# Coverage & test reports
+coverage/
+.nyc_output/
+
+# SAP CAP specific
+# SQLite databases (local dev)
+*.sqlite
+*.db
+
+# CDS build artifacts
+*.cds.js
+*.cds.csn.json
