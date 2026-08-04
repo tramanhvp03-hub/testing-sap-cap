@@ -1,7 +1,7 @@
 namespace my.bookshop;
 
-entity Publishers {
+entity Authors {
   key ID     : Integer;
   name       : String;
-  address    : String;
+  country    : String;
 }

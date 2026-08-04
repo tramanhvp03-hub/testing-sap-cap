@@ -1,17 +1,13 @@
 namespace my.bookshop;
 
-// Bảng sách
+using { my.bookshop.Authors } from './Authors';
+using { my.bookshop.Publishers } from './Publishers';
+
 entity Books {
   key ID     : Integer;
   title      : String;
   author    : Association to Authors;
   stock      : Integer;
-}
-
-
-entity Authors {
-  key ID     : Integer;
-  name       : String;
-  country    : String;
+  publisher : Association to Publishers;
 }
 
