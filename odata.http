@@ -1,0 +1,56 @@
+### CREATE (POST)
+POST http://localhost:4004/odata/v4/catalog/Books
+Content-Type: application/json
+
+{
+  "ID": 6,
+  "title": "REST Client",
+  "author_ID": 103,
+  "stock": 1
+}
+
+### READ (GET all)
+GET http://localhost:4004/odata/v4/catalog/Publishers
+
+### READ (GET one)
+GET http://localhost:4004/odata/v4/catalog/Books(101)
+
+### UPDATE (PUT)
+PUT http://localhost:4004/odata/v4/catalog/Books(101)
+Content-Type: application/json
+
+{
+  "ID": 101,
+  "title": "Updated REST Client Book",
+  "author_ID": 2
+}
+
+### PATCH (update field)
+PATCH http://localhost:4004/odata/v4/catalog/Books(101)
+Content-Type: application/json
+
+{
+  "title": "Patched Title"
+}
+
+### DELETE
+DELETE http://localhost:4004/odata/v4/catalog/Books(101)
+
+
+### READ + FILTER (Books có title chứa 'Patched Title')
+GET http://localhost:4004/odata/v4/catalog/Books?$filter=contains(title,'Patched Title')
+
+### READ + SORT (Books sort theo title ASC)
+GET http://localhost:4004/odata/v4/catalog/Books?$orderby=title asc
+
+### READ + SORT (Books sort theo title DESC)
+GET http://localhost:4004/odata/v4/catalog/Books?$orderby=title desc
+
+### READ + FILTER + SORT (Books của Nguyễn Văn A, sort theo title ASC)
+GET http://localhost:4004/odata/v4/catalog/Books?$filter=author eq 'Nguyễn Văn A'&$orderby=title asc
+
+### READ + SELECT (chỉ lấy ID và title)
+GET http://localhost:4004/odata/v4/catalog/Books?$select=ID,title
+
+### READ + EXPAND (Books kèm thông tin Author liên kết)
+GET http://localhost:4004/odata/v4/catalog/Books?$expand=author
