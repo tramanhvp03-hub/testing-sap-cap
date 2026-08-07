@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.24.0",
-      "toolsId": "ea37ecf5-2591-4858-a1ce-156c4a301e77"
+      "toolsId": "4aaf104d-d99d-4d59-93d5-83d9f211bca3"
     },
     "dataSources": {
       "mainService": {
@@ -46,7 +46,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.150.1",
+      "minUI5Version": "1.151.0",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {}
@@ -94,17 +94,17 @@
       },
       "routes": [
         {
-          "name": "RouteMainpage",
+          "name": "RouteSaleoder",
           "pattern": ":?query:",
           "target": [
-            "TargetMainpage"
+            "TargetSaleoder"
           ]
         }
       ],
       "targets": {
-        "TargetMainpage": {
-          "id": "Mainpage",
-          "name": "Mainpage"
+        "TargetSaleoder": {
+          "id": "Saleoder",
+          "name": "Saleoder"
         }
       }
     },

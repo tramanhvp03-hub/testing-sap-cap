@@ -1,4 +1,4 @@
-<mvc:View controllerName="zsaleorder.controller.Mainpage"
+<mvc:View controllerName="zsaleorder.controller.Saleoder"
    xmlns:mvc="sap.ui.core.mvc"
 		xmlns:core="sap.ui.core"
 		xmlns="sap.m"
