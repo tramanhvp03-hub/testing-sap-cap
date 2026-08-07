@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.24.0",
-      "toolsId": "4aaf104d-d99d-4d59-93d5-83d9f211bca3"
+      "toolsId": "1811378b-6694-472e-b34c-60795b592e5f"
     },
     "dataSources": {
       "mainService": {
@@ -94,17 +94,17 @@
       },
       "routes": [
         {
-          "name": "RouteSaleoder",
+          "name": "RouteSaleorder",
           "pattern": ":?query:",
           "target": [
-            "TargetSaleoder"
+            "TargetSaleorder"
           ]
         }
       ],
       "targets": {
-        "TargetSaleoder": {
-          "id": "Saleoder",
-          "name": "Saleoder"
+        "TargetSaleorder": {
+          "id": "Saleorder",
+          "name": "Saleorder"
         }
       }
     },

@@ -3,7 +3,7 @@ sap.ui.define([
 ], (Controller) => {
     "use strict";
 
-    return Controller.extend("zsaleorder.controller.Saleoder", {
+    return Controller.extend("zsaleorder.controller.Saleorder", {
         onInit() {
         }
     });
