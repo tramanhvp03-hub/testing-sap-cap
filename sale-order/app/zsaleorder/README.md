@@ -1,14 +1,14 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Fri Aug 07 2026 11:20:38 GMT+0700 (Indochina Time)|
+|**Generation Date and Time**<br>Fri Aug 07 2026 15:41:44 GMT+0700 (Indochina Time)|
 |**App Generator**<br>SAP Fiori Application Generator|
 |**App Generator Version**<br>1.24.0|
 |**Generation Platform**<br>Visual Studio Code|
 |**Template Used**<br>Basic V4|
 |**Service Type**<br>OData URL|
 |**Service URL**<br>http://localhost:4004/odata/v4/sale|
-|**Module Name**<br>z_sale_order|
+|**Module Name**<br>zsaleorder|
 |**Application Title**<br>Sale Order|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_horizon|
@@ -16,7 +16,7 @@
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>True, see https://www.npmjs.com/package/@sap-ux/eslint-plugin-fiori-tools#rules for the eslint rules.|
 
-## z_sale_order
+## zsaleorder
 
 Sale Order application.
 

@@ -1,11 +1,11 @@
 {
   "generationParameters": {
-    "generationDate": "Fri Aug 07 2026 11:20:38 GMT+0700 (Indochina Time)",
+    "generationDate": "Fri Aug 07 2026 15:41:44 GMT+0700 (Indochina Time)",
     "generatorPlatform": "Visual Studio Code",
     "serviceType": "OData URL",
     "metadataFilename": "",
     "serviceUrl": "http://localhost:4004/odata/v4/sale",
-    "appName": "z_sale_order",
+    "appName": "zsaleorder",
     "appTitle": "Sale Order",
     "appDescription": "Sale Order application.",
     "appNamespace": "",

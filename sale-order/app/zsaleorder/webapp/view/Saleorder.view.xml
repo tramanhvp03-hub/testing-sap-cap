@@ -1,0 +1,107 @@
+<mvc:View controllerName="zsaleorder.controller.Saleorder"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:svm="sap.ui.comp.smartvariants">
+    <Page id="page" title="{i18n>title}">
+       <form:SimpleForm id="_IDGenSimpleForm" editable="true">
+		<Label id="_IDGenLabel" text="Products Name" labelFor="multiInput"/>
+		<MultiInput
+			id="multiInput"
+			width="60%"
+			valueHelpRequest=".onValueHelpRequested"
+			suggestionRows="{
+				path: '/Products',
+				length: 10
+			}">
+			<suggestionColumns>
+				<Column id="_IDGenColumn4">
+					<Label id="_IDGenLabel1" text="Product Code"/>
+				</Column>
+				<Column id="_IDGenColumn5">
+					<Label id="_IDGenLabel2" text="Product Name"/>
+				</Column>
+			</suggestionColumns>
+			<suggestionRows>
+				<ColumnListItem id="_IDGenColumnListItem1">
+					<Label id="_IDGenLabel3" text="{ProductCode}" />
+					<Label id="_IDGenLabel4" text="{ProductName}" />
+				</ColumnListItem>
+			</suggestionRows>
+		</MultiInput>
+        	</form:SimpleForm>
+
+        <f:DynamicPage id="_IDGenDynamicPage1" headerExpanded="true">
+          	
+          <f:header>
+                <f:DynamicPageHeader id="_IDGenDynamicPageHeader">
+                    <f:content>
+                        <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                            <fb:filterGroupItems>
+
+                                <fb:FilterGroupItem id="_IDGenFilterGroupItem" name="Product Name" label="Product Name" groupName="Group1" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <MultiComboBox id="_IDGenMultiComboBox" name="Product Name" selectionChange=".onSelectionChange" items="{
+												path: '/Products'											
+											}">
+                                            <core:Item id="_IDGenItem" key="{ID}" text="{name}"/>
+                                        </MultiComboBox>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+
+                                <fb:FilterGroupItem id="_IDGenFilterGroupItem1" name="Customer Name" label="Customer Name" groupName="Group1" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <MultiComboBox id="_IDGenMultiComboBox1" name="Customer Name" selectionChange=".onSelectionChange" items="{
+												path: '/Customers',
+												templateShareable: true
+											}">
+                                            <core:Item id="_IDGenItem1" key="{ID}" text="{name}"/>
+                                        </MultiComboBox>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+
+                                <fb:FilterGroupItem id="_IDGenFilterGroupItem3" name="Order Date" label="Order Date" groupName="Group1" visibleInFilterBar="true">
+                                    <fb:control>
+                                        <DatePicker id="DP1" name="Order Date" placeholder="Enter Date" change=".handleChange" class="sapUiSmallMarginBottom"/>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+
+                            </fb:filterGroupItems>
+                        </fb:FilterBar>
+                    </f:content>
+                </f:DynamicPageHeader>
+            </f:header>
+
+            <f:content>
+                <Table id="table" inset="false" items="{
+						path: '/Orders'
+					}">
+                    <columns>
+                        <Column id="_IDGenColumn" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText" text="Order ID"/>
+                        </Column>
+                        <Column id="_IDGenColumn1" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText1" text="Customer Name"/>
+                        </Column>
+                        <Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true">
+                            <Text id="_IDGenText2" text="Product Name"/>
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem id="_IDGenColumnListItem" vAlign="Middle">
+                            <cells>
+                                <ObjectIdentifier id="_IDGenObjectIdentifier" title="{ID}" text="{ID}" />
+                                <Text id="_IDGenText3" text="{customer/name}" />
+                                <Text id="_IDGenText4" text="{items/product/name}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </f:content>
+        </f:DynamicPage>
+    </Page>
+</mvc:View>
