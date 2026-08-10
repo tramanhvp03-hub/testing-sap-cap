@@ -1,0 +1,60 @@
+<core:FragmentDefinition
+	xmlns="sap.ui.comp.valuehelpdialog"
+	xmlns:m="sap.m"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc">
+	<ValueHelpDialog id="_IDGenValueHelpDialog"
+		title="Product"
+		ok=".onWhitespaceOkPress"
+		cancel=".onWhitespaceCancelPress"
+		afterClose=".onWhitespaceAfterClose"
+		supportRanges="true"
+		key="ProductCode"
+		descriptionKey="ProductName">
+		<filterBar>
+			<fb:FilterBar id="_IDGenFilterBar" advancedMode="true" search=".onFilterBarSearch" isRunningInValueHelpDialog="true">
+				<fb:filterGroupItems>
+					<fb:FilterGroupItem id="_IDGenFilterGroupItem2"
+						groupName="__$INTERNAL$"
+						name="CustomerID"
+						label="Customer ID"
+						visibleInFilterBar="true">
+						<fb:control>
+							<m:Input id="_IDGenInput" name="CustomerID"
+							showSuggestion="true"
+							showValueHelp="false"
+							suggestionItems="{
+							   path: '/CustomerS',
+							   sorter: { path: 'ID' }
+						    }">
+								<core:Item id="_IDGenItem2" key="{ID}" text="{
+									path: 'ProductCode',
+									formatter : '.whitespace2Char'
+								}"/>
+				  			</m:Input>
+						</fb:control>
+					</fb:FilterGroupItem>
+					<fb:FilterGroupItem id="_IDGenFilterGroupItem4"
+						groupName="__$INTERNAL$"
+						name="CustomerName"
+						label="Customer Name"
+						visibleInFilterBar="true">
+						<fb:control>
+							<m:Input id="_IDGenInput1" name="CustomerName"
+								showSuggestion="true"
+								showValueHelp="false"
+								suggestionItems="{
+								path: '/Customers',
+								sorter: { path: 'name' }
+							}">
+								<core:Item id="_IDGenItem3" key="{ID}" text="{name}"/>
+							</m:Input>
+						</fb:control>
+					</fb:FilterGroupItem>
+				</fb:filterGroupItems>
+			</fb:FilterBar>
+		</filterBar>
+	</ValueHelpDialog>
+</core:FragmentDefinition>
