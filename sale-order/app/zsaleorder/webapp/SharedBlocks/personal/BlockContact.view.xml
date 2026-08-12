@@ -1,0 +1,13 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:forms="sap.ui.layout.form"
+		  xmlns:core="sap.ui.core" xmlns="sap.m">
+
+	<forms:SimpleForm id="_IDGenSimpleForm2" editable="false" labelSpanL="4" labelSpanM="4"
+					  labelSpanS="4" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+					  maxContainerCols="2" width="100%">
+		<core:Title id="_IDGenTitle2" text="Contact"/>
+
+		<Label id="_IDGenLabel7" text="Email"/>
+		<Text id="_IDGenText9" text="{customer/email}"/>
+
+	</forms:SimpleForm>
+</mvc:View>

@@ -1,0 +1,18 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc"
+	xmlns:forms="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m">
+
+	<forms:SimpleForm id="_IDGenSimpleForm1" layout="ColumnLayout" width="100%">
+
+		<core:Title id="_IDGenTitle1" text="Personal Information"/>
+
+		<Label id="_IDGenLabel" text="ID Number"/>
+		<Text id="_IDGenText19" text="{customer/ID}"/>
+
+		<Label id="_IDGenLabel9" text="Office phone"/>
+		<Text id="_IDGenText20" text="{customer/name}"/>
+
+	</forms:SimpleForm>
+
+</mvc:View>

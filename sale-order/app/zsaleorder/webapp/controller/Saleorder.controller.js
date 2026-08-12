@@ -12,8 +12,11 @@ sap.ui.define([
     'sap/ui/table/Column',
     'sap/m/Column',
     'sap/m/Text',
-    'sap/ui/comp/smartvariants/PersonalizableInfo'
-], function (compLibrary, Controller, TypeString, ColumnListItem, Label, SearchField, Token, Filter, FilterOperator, ODataModel, UIColumn, MColumn, Text, PersonalizableInfo) {
+    'sap/ui/comp/smartvariants/PersonalizableInfo',
+    'sap/ui/core/UIComponent',
+    'sap/ui/core/format/DateFormat'
+], function (compLibrary, Controller, TypeString, ColumnListItem, Label, SearchField, Token, Filter, FilterOperator,
+    ODataModel, UIColumn, MColumn, Text, PersonalizableInfo, UIComponen, DateFormat) {
     "use strict";
 
     return Controller.extend("zsaleorder.controller.Saleorder", {
@@ -108,7 +111,7 @@ sap.ui.define([
                 if (oControl.getSelectedKeys) {
                     oControl.getSelectedKeys().forEach(function (sKey) {
                         aFilters.push(new Filter({
-                            path: "/Orders",
+                            path: "items/product_ID",
                             operator: FilterOperator.Contains,
                             value1: sKey
                         }));
@@ -119,7 +122,7 @@ sap.ui.define([
                 else if (oControl.getTokens) {
                     oControl.getTokens().forEach(function (oToken) {
                         aFilters.push(new Filter({
-                            path: oFilterGroupItem.getName(),
+                            path: "customer_ID",
                             operator: FilterOperator.Contains,
                             value1: oToken.getKey() || oToken.getText()
                         }));
@@ -127,13 +130,18 @@ sap.ui.define([
                 }
 
                 // DatePicker
+
                 else if (oControl.getDateValue) {
                     var oDate = oControl.getDateValue();
                     if (oDate) {
+                        var year = oDate.getFullYear();
+                        var month = String(oDate.getMonth() + 1).padStart(2, '0');
+                        var day = String(oDate.getDate()).padStart(2, '0');
+                        var sDate = year + "-" + month + "-" + day; // YYYY-MM-DD
                         aFilters.push(new Filter({
-                            path: oFilterGroupItem.getName(),
+                            path: "orderDate",
                             operator: FilterOperator.EQ,
-                            value1: oDate
+                            value1: sDate
                         }));
                     }
                 }
@@ -283,34 +291,34 @@ sap.ui.define([
         },
 
         onFilterBarSearch: function (oEvent) {
-			var sSearchQuery = this._oBasicSearchField.getValue(),
-				aSelectionSet = oEvent.getParameter("selectionSet");
+            var sSearchQuery = this._oBasicSearchField.getValue(),
+                aSelectionSet = oEvent.getParameter("selectionSet");
 
-			var aFilters = aSelectionSet.reduce(function (aResult, oControl) {
-				if (oControl.getValue()) {
-					aResult.push(new Filter({
-						path: oControl.getName(),
-						operator: FilterOperator.Contains,
-						value1: oControl.getValue()
-					}));
-				}
+            var aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                if (oControl.getValue()) {
+                    aResult.push(new Filter({
+                        path: oControl.getName(),
+                        operator: FilterOperator.Contains,
+                        value1: oControl.getValue()
+                    }));
+                }
 
-				return aResult;
-			}, []);
+                return aResult;
+            }, []);
 
-			aFilters.push(new Filter({
-				filters: [
-					new Filter({ path: "ID", operator: FilterOperator.Contains, value1: sSearchQuery }),
-					new Filter({ path: "name", operator: FilterOperator.Contains, value1: sSearchQuery })
-				],
-				and: false
-			}));
+            aFilters.push(new Filter({
+                filters: [
+                    new Filter({ path: "ID", operator: FilterOperator.Contains, value1: sSearchQuery }),
+                    new Filter({ path: "name", operator: FilterOperator.Contains, value1: sSearchQuery })
+                ],
+                and: false
+            }));
 
-			this._filterTable(new Filter({
-				filters: aFilters,
-				and: true
-			}));
-		},
+            this._filterTable(new Filter({
+                filters: aFilters,
+                and: true
+            }));
+        },
 
         onValueHelpOkPress: function (oEvent) {
             var aTokens = oEvent.getParameter("tokens");
@@ -326,6 +334,23 @@ sap.ui.define([
             this._oVHD.destroy();
         },
 
+        onNavigate: function (oEvent) {
+            var oButton = oEvent.getSource();              // chính là Button được bấm
+            var oContext = oButton.getBindingContext();    // context của dòng chứa Button
+            var sOrderId = oContext.getProperty("ID");     // lấy Order ID từ model
+
+            this.getOwnerComponent().getRouter().navTo("RouteDetailpage", {
+                OrderId: sOrderId
+            });
+        },
+
+        formatOrderDate: function (sDate) {
+            if (!sDate) return "";
+            var oDate = new Date(sDate); // parse chuỗi thành Date object
+            var oDateFormat = DateFormat.getDateInstance({ pattern: "dd-MM-yyyy" });
+            return oDateFormat.format(oDate);
+        },
+
         _updateLabelsAndTable: function () {
             this.oExpandedLabel.setText(this.getFormattedSummaryTextExpanded());
             this.oSnappedLabel.setText(this.getFormattedSummaryText());
@@ -333,19 +358,19 @@ sap.ui.define([
         },
 
         _filterTable: function (oFilter) {
-			var oVHD = this._oVHD;
+            var oVHD = this._oVHD;
 
-			oVHD.getTableAsync().then(function (oTable) {
-				if (oTable.bindRows) {
-					oTable.getBinding("rows").filter(oFilter);
-				}
-				if (oTable.bindItems) {
-					oTable.getBinding("items").filter(oFilter);
-				}
+            oVHD.getTableAsync().then(function (oTable) {
+                if (oTable.bindRows) {
+                    oTable.getBinding("rows").filter(oFilter);
+                }
+                if (oTable.bindItems) {
+                    oTable.getBinding("items").filter(oFilter);
+                }
 
-				// This method must be called after binding update of the table.
-				oVHD.update();
-			});
-		}
+                // This method must be called after binding update of the table.
+                oVHD.update();
+            });
+        }
     });
 });
