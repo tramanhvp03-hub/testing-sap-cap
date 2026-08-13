@@ -10,7 +10,7 @@
 		<Label id="_IDGenLabel" text="ID Number"/>
 		<Text id="_IDGenText19" text="{customer/ID}"/>
 
-		<Label id="_IDGenLabel9" text="Office phone"/>
+		<Label id="_IDGenLabel9" text="Customer Name"/>
 		<Text id="_IDGenText20" text="{customer/name}"/>
 
 	</forms:SimpleForm>

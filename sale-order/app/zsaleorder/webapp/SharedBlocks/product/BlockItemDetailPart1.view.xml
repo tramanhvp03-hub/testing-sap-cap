@@ -1,4 +1,4 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:forms="sap.ui.layout.form" xmlns="sap.m">
+<mvc:View  xmlns:mvc="sap.ui.core.mvc" xmlns:forms="sap.ui.layout.form" xmlns="sap.m">
 
 	<forms:SimpleForm id="_IDGenSimpleForm4" labelSpanL="4" labelSpanM="4" editable="false"
 					  labelSpanS="4" emptySpanL="0" emptySpanM="0" emptySpanS="0"
@@ -14,7 +14,7 @@
 		<Text id="_IDGenText23"  text="{items/amount}"/>
 
 		<Label id="_IDGenLabel20" text="Created At"/>
-		<Text id="_IDGenLabel21" text="{path: 'items/createdAt', formatter: 'formatter.formatcreateddate'}"/>
+		<Text id="_IDGenLabel21" text="{path: 'items/createdAt', formatter: 'formatCreatedAt'}"/>
 
 	</forms:SimpleForm>
 

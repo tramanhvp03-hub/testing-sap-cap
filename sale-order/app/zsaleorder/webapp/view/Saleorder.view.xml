@@ -62,15 +62,9 @@
 
                             <fb:FilterGroupItem id="_IDGenFilterGroupItem3" name="Order Date" label="Order Date" groupName="Default" visibleInFilterBar="true">
                                 <fb:control>
-                                    <DatePicker id="DP1" name="Order Date" value="{path: 'orderDate'}" valueFormat="yyyy-MM-dd" displayFormat="dd-MM-yyy" placeholder="Enter Date" />
+                                    <DatePicker id="DP1" name="Order Date" value="{path: 'orderDate'}" valueFormat="yyyy-MM-dd" displayFormat="dd/MM/yyyy" placeholder="Enter Date" />
                                 </fb:control>
                             </fb:FilterGroupItem>
-
-                            <!-- <fb:FilterGroupItem id="_IDGenFilterGroupItem6" name="button"  groupName="Default" visibleInFilterBar="true">
-                                <fb:control>
-                                    <Button id="_IDGenButton3" text="Add Item" type="Neutral" width="10%" press=".onAdd" icon="sap-icon://add"/>
-                                </fb:control>
-                            </fb:FilterGroupItem> -->
 
                         </fb:filterGroupItems>
                     </fb:FilterBar>
@@ -85,21 +79,32 @@
                               $expand: 'items($expand=product),customer'
         }
 					}">
+                <headerToolbar>
+                    <Toolbar id="_IDGenToolbar1" design="Solid">
+                        <Title id="_IDGenTitle3" text="Sale Orders" />
+                        <ToolbarSpacer id="_IDGenToolbarSpacer"/>
+                        <Button id="_IDGenButton4" text="New Order" icon="sap-icon://add" type="Neutral" press=".onAdd"/>
+                        <Button id="_IDGenButton5" text="Delete Selected" icon="sap-icon://delete" type="Reject" press=".onDeleteSelected"/>
+                    </Toolbar>
+                </headerToolbar>
                 <columns>
-                    <Column id="_IDGenColumn" minScreenWidth="Tablet" demandPopin="true">
-                        <Text id="_IDGenText" text="Order ID" />
+                    <Column id="_IDGenColumn" width="19%" hAlign="Center" minScreenWidth="Tablet" demandPopin="false">
+                        <Text id="_IDGenText1" text="Order ID"/>
                     </Column>
-                    <Column id="_IDGenColumn1" minScreenWidth="Tablet" demandPopin="true">
-                        <Text id="_IDGenText1" text="Customer Name" />
+                    <Column id="_IDGenColumn1" width="22%" minScreenWidth="Tablet" demandPopin="false">
+                        <Text id="_IDGenText2" text="Customer Name"/>
                     </Column>
-                    <Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true">
-                        <Text id="_IDGenText2" text="Product Name" />
+                    <Column id="_IDGenColumn2" width="33%" minScreenWidth="Tablet" demandPopin="false">
+                        <Text id="_IDGenText6" text="Product Name"/>
                     </Column>
-                    <Column id="_IDGenColumn3" minScreenWidth="Tablet" demandPopin="true">
-                        <Text id="_IDGenText6" text="Order Date" />
+                    <Column id="_IDGenColumn3" width="20%" minScreenWidth="Tablet" demandPopin="false">
+                        <Text id="_IDGenText8" text="Order Date"/>
                     </Column>
-                    <Column id="_IDGenColumn7">
-                        <Text id="_IDGenText8" />
+                    <Column id="_IDGenColumn6" width="28%" minScreenWidth="Tablet" demandPopin="false">
+                        <Text id="_IDGenText11" text="Created At"/>
+                    </Column>
+                    <Column id="_IDGenColumn7" width="6%">
+                        <Text id="_IDGenText12"/>
                     </Column>
                 </columns>
 
@@ -110,7 +115,10 @@
                             <Text id="_IDGenText3" text="{customer/name}" />
                             <Text id="_IDGenText4" text="{items/product/name}" />
                             <Text id="_IDGenText5" text="{path: 'orderDate', formatter: '.formatOrderDate'}"/>
-                            <Button id="_IDGenButton" icon="sap-icon://feeder-arrow" press="onNavigate" />
+                            <Text id="_IDGenText10" text="{path: 'createdAt', formatter: '.formatCreatedAt'}"/>
+                            <HBox id="_IDGenHBox1" justifyContent="End">
+                                <Button id="_IDGenButton" icon="sap-icon://feeder-arrow" press=".onNavigate" type="Transparent"/>
+                            </HBox>
                         </cells>
                     </ColumnListItem>
                 </items>

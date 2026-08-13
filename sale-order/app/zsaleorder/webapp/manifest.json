@@ -44,6 +44,9 @@
     }
   },
   "sap.ui5": {
+    "resourceRoots": {
+    "zsaleorder": "./"
+  },
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.151.0",

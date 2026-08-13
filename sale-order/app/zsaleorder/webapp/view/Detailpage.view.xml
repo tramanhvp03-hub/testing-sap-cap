@@ -13,7 +13,6 @@
 					<m:Title id="_IDGenTitle" text="Order ID: {ID}" wrapping="true"/>
 				</expandedHeading>
 				<actions>
-					<m:Button id="_IDGenButton3" text="New Order" type="Neutral" press=".onAdd" icon="sap-icon://add"/>
 					<m:Button id="_IDGenButton1" text="Edit" type="Emphasized" press=".onEdit" icon="sap-icon://edit"/>
 					<m:Button id="_IDGenButton2" type="Reject" text="Delete" press=".onDelete" icon="sap-icon://delete"/>
 					<m:OverflowToolbarButton id="_IDGenOverflowToolbarButton" icon="sap-icon://action" type="Transparent" text="Share" tooltip="action"/>
@@ -49,7 +48,6 @@
 					</ObjectPageSubSection>
 				</subSections>
 			</ObjectPageSection>
-
 
 		</sections>
 	</ObjectPageLayout>

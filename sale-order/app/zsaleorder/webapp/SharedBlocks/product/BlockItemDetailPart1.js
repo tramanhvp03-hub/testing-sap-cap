@@ -1,10 +1,9 @@
 sap.ui.define([
-  "sap/uxap/BlockBase",
-  "zsaleorder/SharedBlocks/product/formatter"
-], function (BlockBase, formatter) {
+  "sap/uxap/BlockBase"
+], function (BlockBase) {
   "use strict";
 
-  var BlockItemDetailPart1 = BlockBase.extend("zsaleorder.SharedBlocks.product.BlockItemDetailPart1", {
+  return BlockBase.extend("zsaleorder.SharedBlocks.product.BlockItemDetailPart1", {
     metadata: {
       views: {
         Collapsed: {
@@ -17,9 +16,21 @@ sap.ui.define([
         }
       }
     },
+    formatCreatedAt: function(sDate) {
+  if (!sDate) return "";
+  var oDate = (sDate instanceof Date) ? sDate : new Date(sDate);
+  if (isNaN(oDate.getTime())) return sDate;
+  var dd = ("0" + oDate.getDate()).slice(-2);
+  var mm = ("0" + (oDate.getMonth() + 1)).slice(-2);
+  var yyyy = oDate.getFullYear();
+  var h = oDate.getHours();
+  var ampm = h >= 12 ? "pm" : "am";
+  h = h % 12;
+  h = h ? h : 12;
+  var hh = ("0" + h).slice(-2);
+  var min = ("0" + oDate.getMinutes()).slice(-2);
+  return dd + "/" + mm + "/" + yyyy + " " + hh + ":" + min + ampm;
+}
 
-    formatter: formatter
   });
-
-  return BlockItemDetailPart1;
 });
