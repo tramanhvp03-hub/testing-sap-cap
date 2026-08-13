@@ -44,6 +44,9 @@
     }
   },
   "sap.ui5": {
+    "resourceRoots": {
+    "zsaleorder": "./"
+  },
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.151.0",
@@ -96,18 +99,27 @@
         {
           "name": "RouteSaleorder",
           "pattern": ":?query:",
-          "target": [
+          "target": 
             "TargetSaleorder"
-          ]
+          
+        },
+        {
+          "name": "RouteDetailpage",
+          "pattern": "Orders/{OrderId}",
+          "target": 
+            "TargetDetailpage"
         }
       ],
       "targets": {
         "TargetSaleorder": {
           "id": "Saleorder",
           "name": "Saleorder"
+        },
+        "TargetDetailpage": {
+          "id": "Detailpage",
+          "name": "Detailpage"
         }
-      }
-    },
+      }},
     "rootView": {
       "viewName": "zsaleorder.view.App",
       "type": "XML",

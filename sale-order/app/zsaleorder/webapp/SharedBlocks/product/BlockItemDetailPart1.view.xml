@@ -1,0 +1,21 @@
+<mvc:View  xmlns:mvc="sap.ui.core.mvc" xmlns:forms="sap.ui.layout.form" xmlns="sap.m">
+
+	<forms:SimpleForm id="_IDGenSimpleForm4" labelSpanL="4" labelSpanM="4" editable="false"
+					  labelSpanS="4" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+					  maxContainerCols="2" layout="ResponsiveGridLayout" width="100%">
+
+		<Label id="_IDGenLabel17"  text="ID"/>
+		<Text id="_IDGenText7"  text="{items/ID}"/>
+
+		<Label id="_IDGenLabel18" text="Quantity"/>
+		<Text id="_IDGenText21"  text="{items/quantity}"/>
+
+		<Label id="_IDGenLabel19"  text="Amount"/>
+		<Text id="_IDGenText23"  text="{items/amount}"/>
+
+		<Label id="_IDGenLabel20" text="Created At"/>
+		<Text id="_IDGenLabel21" text="{path: 'items/createdAt', formatter: 'formatCreatedAt'}"/>
+
+	</forms:SimpleForm>
+
+</mvc:View>
