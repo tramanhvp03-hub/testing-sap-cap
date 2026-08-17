@@ -1,7 +1,6 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core"
 		  xmlns:forms="sap.ui.layout.form" xmlns="sap.m">
 
-
 	<forms:SimpleForm id="_IDGenSimpleForm5" labelSpanL="4" labelSpanM="4" editable="false"
 					  labelSpanS="4" emptySpanL="0" emptySpanM="0" emptySpanS="0"
 					  maxContainerCols="2" layout="ResponsiveGridLayout"
@@ -18,5 +17,4 @@
 		<Label id="_IDGenLabel29" text="Stock"/>
 		<Input id="_IDGenText30" editable="{ui>/editable}" type="Number" value="{items/product/stock}"/>
 	</forms:SimpleForm>
-
 </mvc:View>
