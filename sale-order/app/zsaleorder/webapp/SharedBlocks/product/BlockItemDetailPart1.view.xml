@@ -17,5 +17,4 @@
 		<Text id="_IDGenText" text="{path: 'items/createdAt', formatter: '.formatCreatedAt'}" />
 
 	</forms:SimpleForm>
-
 </mvc:View>
