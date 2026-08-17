@@ -11,7 +11,7 @@
 		<Text id="_IDGenText19" text="{customer/ID}"/>
 
 		<Label id="_IDGenLabel9" text="Customer Name"/>
-		<Text id="_IDGenText20" text="{customer/name}"/>
+		<Input id="_IDGenText20" editable="{ui>/editable}" value="{customer/name}"/>
 
 	</forms:SimpleForm>
 

@@ -16,7 +16,7 @@
 		<Text id="_IDGenText28" text="{items/product/price}"/>
 
 		<Label id="_IDGenLabel29" text="Stock"/>
-		<Text id="_IDGenText30" text="{items/product/stock}"/>
+		<Input id="_IDGenText30" editable="{ui>/editable}" type="Number" value="{items/product/stock}"/>
 	</forms:SimpleForm>
 
 </mvc:View>

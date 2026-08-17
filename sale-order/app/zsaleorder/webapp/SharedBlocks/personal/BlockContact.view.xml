@@ -7,7 +7,7 @@
 		<core:Title id="_IDGenTitle2" text="Contact"/>
 
 		<Label id="_IDGenLabel7" text="Email"/>
-		<Text id="_IDGenText9" text="{customer/email}"/>
+		<Input id="_IDGenText9" editable="{ui>/editable}" value="{customer/email}"/>
 
 	</forms:SimpleForm>
 </mvc:View>

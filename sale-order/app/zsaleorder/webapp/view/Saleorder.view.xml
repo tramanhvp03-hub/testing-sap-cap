@@ -6,7 +6,7 @@
     xmlns:fb="sap.ui.comp.filterbar"
     xmlns:form="sap.ui.layout.form"
     xmlns:svm="sap.ui.comp.smartvariants">
-    <f:DynamicPage id="_IDGenDynamicPage1" title="{i18n>title}" headerExpanded="true">
+    <f:DynamicPage id="_IDGenDynamicPage1" title="{i18n>title}" headerExpanded="true" fitContent="true">
         <f:title>
             <f:DynamicPageTitle id="_IDGenDynamicPageTitle">
                 <f:heading>
@@ -24,7 +24,7 @@
         <f:header>
             <f:DynamicPageHeader id="_IDGenDynamicPageHeader">
                 <f:content>
-                    <fb:FilterBar id="filterbar" useToolbar="true" search=".onSearch" filterChange=".onFilterChange" showFilterConfiguration="false" afterVariantLoad=".onAfterVariantLoad">
+                    <fb:FilterBar id="filterbar" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" showFilterConfiguration="false" afterVariantLoad=".onAfterVariantLoad">
                         <fb:filterGroupItems>
                             <fb:FilterGroupItem id="_IDGenFilterGroupItem" name="Product Name" label="Product Name" groupName="Default" visibleInFilterBar="true">
                                 <fb:control>
@@ -73,7 +73,8 @@
         </f:header>
 
         <f:content>
-            <Table id="table" itemPress="onNavigate" items="{
+       
+            <Table id="table" itemPress="onNavigate" mode="SingleSelectLeft" growingThreshold="10" items="{
 						path: '/Orders',
                         parameters: {
                               $expand: 'items($expand=product),customer'
@@ -84,11 +85,11 @@
                         <Title id="_IDGenTitle3" text="Sale Orders" />
                         <ToolbarSpacer id="_IDGenToolbarSpacer"/>
                         <Button id="_IDGenButton4" text="New Order" icon="sap-icon://add" type="Neutral" press=".onAdd"/>
-                        <Button id="_IDGenButton5" text="Delete Selected" icon="sap-icon://delete" type="Reject" press=".onDeleteSelected"/>
+                        <Button id="_IDGenButton5" text="Delete Selected" icon="sap-icon://delete" type="Reject" press=".onDelete"/>
                     </Toolbar>
                 </headerToolbar>
                 <columns>
-                    <Column id="_IDGenColumn" width="19%" hAlign="Center" minScreenWidth="Tablet" demandPopin="false">
+                    <Column id="_IDGenColumn" width="16%" hAlign="Center" minScreenWidth="Tablet" demandPopin="false">
                         <Text id="_IDGenText1" text="Order ID"/>
                     </Column>
                     <Column id="_IDGenColumn1" width="22%" minScreenWidth="Tablet" demandPopin="false">

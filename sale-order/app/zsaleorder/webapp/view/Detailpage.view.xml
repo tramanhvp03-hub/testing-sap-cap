@@ -13,9 +13,12 @@
 					<m:Title id="_IDGenTitle" text="Order ID: {ID}" wrapping="true"/>
 				</expandedHeading>
 				<actions>
-					<m:Button id="_IDGenButton1" text="Edit" type="Emphasized" press=".onEdit" icon="sap-icon://edit"/>
-					<m:Button id="_IDGenButton2" type="Reject" text="Delete" press=".onDelete" icon="sap-icon://delete"/>
-					<m:OverflowToolbarButton id="_IDGenOverflowToolbarButton" icon="sap-icon://action" type="Transparent" text="Share" tooltip="action"/>
+				<m:Button id="btnSaveInline" text="Save Changes" visible="{ui>/editable}" icon="sap-icon://save" type="Emphasized" press=".onSaveInline"/>
+					<m:Button id="_IDGenButton1" text="Edit" visible="{= !${ui>/editable} }" type="Emphasized" press=".onEdit" icon="sap-icon://edit"/>
+					<m:Button id="_IDGenButton2" type="Reject" visible="{= !${ui>/editable} }"  text="Delete" press=".onDeleteCurrentOrder" icon="sap-icon://delete"/>
+        <m:Button id="_IDGenButton3" text="Cancel" icon="sap-icon://cancel" 
+                visible="{ui>/editable}" 
+                press=".onCancelPress"/>
 				</actions>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
