@@ -6,7 +6,6 @@ sap.ui.define(['sap/uxap/BlockBase'],
 			metadata: {}
 		});
 
-
 		return BlockPersInfo;
 
 	});

@@ -73,7 +73,7 @@
         </f:header>
 
         <f:content>
-       
+
             <Table id="table" itemPress="onNavigate" mode="SingleSelectLeft" growingThreshold="10" items="{
 						path: '/Orders',
                         parameters: {

@@ -17,7 +17,6 @@ sap.ui.define([
             }
         },
 
-        // Định nghĩa hàm format trực tiếp trong Block
         formatCreatedAt: function (sDate) {
             if (!sDate) return "";
             var oDate = (sDate instanceof Date) ? sDate : new Date(sDate);

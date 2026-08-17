@@ -2,8 +2,9 @@ sap.ui.define([
     'sap/m/MessageToast',
     'sap/ui/core/mvc/Controller',
     'sap/ui/core/routing/History',
-    'sap/m/MessageBox'
-], function (MessageToast, Controller, History, MessageBox) {
+    'sap/m/MessageBox',
+    'sap/ui/model/json/JSONModel'
+], function (MessageToast, Controller, History, MessageBox, JSONModel) {
     "use strict";
 
     var PageController = Controller.extend("zsaleorder.controller.Detailpage", {
@@ -11,14 +12,14 @@ sap.ui.define([
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("RouteDetailpage").attachPatternMatched(this._onObjectMatched, this);
 
-            var oUIModel = new sap.ui.model.json.JSONModel({
+            var oUIModel = new JSONModel({
                 editable: false
             });
             this.getView().setModel(oUIModel, "ui");
         },
 
         onNavBack: function () {
-            var oHistory = sap.ui.core.routing.History.getInstance();
+            var oHistory = History.getInstance();
             var sPreviousHash = oHistory.getPreviousHash();
 
             if (sPreviousHash !== undefined) {
@@ -52,11 +53,11 @@ sap.ui.define([
 
             if (oModel.hasPendingChanges()) {
                 oModel.submitBatch("$auto").then(function () {
-                    sap.m.MessageToast.show("Changes saved successfully!");
+                    MessageToast.show("Changes saved successfully!");
                     this.getView().getModel("ui").setProperty("/editable", false);
                 }.bind(this)).catch(function (oError) {
                     console.error("Save Error:", oError);
-                    sap.m.MessageBox.error("Save failed: " + (oError.message || "Unknown error"));
+                    MessageBox.error("Save failed: " + (oError.message || "Unknown error"));
                 });
             } else {
                 this.getView().getModel("ui").setProperty("/editable", false);
@@ -70,7 +71,7 @@ sap.ui.define([
 
             if (oModel.hasPendingChanges()) {
                 oModel.submitBatch("$auto").then(function () {
-                    sap.m.MessageToast.show("Changes saved successfully!");
+                    MessageToast.show("Changes saved successfully!");
                     oUIModel.setProperty("/editable", false);
 
                     if (oTable && oTable.getBinding("items")) {
@@ -78,10 +79,10 @@ sap.ui.define([
                     }
                 }.bind(this)).catch(function (oError) {
                     console.error("Save Error:", oError);
-                    sap.m.MessageBox.error("Failed to save changes: " + (oError.message || "Unknown error"));
+                    MessageBox.error("Failed to save changes: " + (oError.message || "Unknown error"));
                 });
             } else {
-                sap.m.MessageToast.show("No changes detected.");
+                MessageToast.show("No changes detected.");
                 oUIModel.setProperty("/editable", false);
             }
         },
@@ -90,48 +91,48 @@ sap.ui.define([
             var oModel = this.getView().getModel();
             if (oModel.hasPendingChanges()) {
                 oModel.resetChanges();
-                sap.m.MessageToast.show("Changes reverted.");
+                MessageToast.show("Changes reverted.");
             }
         },
 
-       onDeleteCurrentOrder: function () {
-    var oContext = this.getView().getBindingContext();
+        onDeleteCurrentOrder: function () {
+            var oContext = this.getView().getBindingContext();
 
-    if (!oContext) {
-        MessageBox.error("No Order selected to delete!");
-        return;
-    }
-
-    var sOrderId = oContext.getProperty("ID");
-    var that = this; // Giữ tham chiếu tới Controller
-
-    MessageBox.confirm("Are you sure you want to delete Sale Order " + sOrderId + "?", {
-        title: "Confirm Delete",
-        onClose: function (sAction) {
-            if (sAction !== MessageBox.Action.OK && sAction !== "OK") {
+            if (!oContext) {
+                MessageBox.error("No Order selected to delete!");
                 return;
             }
 
-            // Gọi hàm xóa dạng Promise
-            oContext.delete().then(function () {
-                MessageToast.show("Sale Order deleted successfully!");
-                that.getOwnerComponent().getRouter().navTo("RouteSaleorder", {}, true);
-            }).catch(function (oError) {
-                console.error("Delete Error:", oError);
+            var sOrderId = oContext.getProperty("ID");
+            var that = this; // Giữ tham chiếu tới Controller
 
-                if (oError.status === 404 || (oError.message && oError.message.includes("Not Found"))) {
-                    MessageBox.warning("This order no longer exists on server. Returning to main page...", {
-                        onClose: function () {
-                            that.getOwnerComponent().getRouter().navTo("RouteSaleorder", {}, true);
+            MessageBox.confirm("Are you sure you want to delete Sale Order " + sOrderId + "?", {
+                title: "Confirm Delete",
+                onClose: function (sAction) {
+                    if (sAction !== MessageBox.Action.OK && sAction !== "OK") {
+                        return;
+                    }
+
+                    // Gọi hàm xóa dạng Promise
+                    oContext.delete().then(function () {
+                        MessageToast.show("Sale Order deleted successfully!");
+                        that.getOwnerComponent().getRouter().navTo("RouteSaleorder", {}, true);
+                    }).catch(function (oError) {
+                        console.error("Delete Error:", oError);
+
+                        if (oError.status === 404 || (oError.message && oError.message.includes("Not Found"))) {
+                            MessageBox.warning("This order no longer exists on server. Returning to main page...", {
+                                onClose: function () {
+                                    that.getOwnerComponent().getRouter().navTo("RouteSaleorder", {}, true);
+                                }
+                            });
+                        } else {
+                            MessageBox.error("Delete failed: " + (oError.message || "Unknown error"));
                         }
                     });
-                } else {
-                    MessageBox.error("Delete failed: " + (oError.message || "Unknown error"));
                 }
             });
-        }
-    });
-},
+        },
 
         _onObjectMatched: function (oEvent) {
             var sOrderId = oEvent.getParameter("arguments").OrderId;
@@ -145,24 +146,24 @@ sap.ui.define([
                 path: "/Orders(" + sOrderId + ")"
             });
         },
-        // Cách 1: Format thủ công (nhanh, gọn)
-formatCreatedAt: function (vValue) {
-    if (!vValue) return "";
-    var oDate = (vValue instanceof Date) ? vValue : new Date(vValue);
-    if (isNaN(oDate.getTime())) return vValue;
+  
+        formatCreatedAt: function (vValue) {
+            if (!vValue) return "";
+            var oDate = (vValue instanceof Date) ? vValue : new Date(vValue);
+            if (isNaN(oDate.getTime())) return vValue;
 
-    var dd = ("0" + oDate.getDate()).slice(-2);
-    var mm = ("0" + (oDate.getMonth() + 1)).slice(-2);
-    var yyyy = oDate.getFullYear();
-    var h = oDate.getHours();
-    var ampm = h >= 12 ? "pm" : "am";
-    h = h % 12;
-    h = h ? h : 12;
-    var hh = ("0" + h).slice(-2);
-    var min = ("0" + oDate.getMinutes()).slice(-2);
+            var dd = ("0" + oDate.getDate()).slice(-2);
+            var mm = ("0" + (oDate.getMonth() + 1)).slice(-2);
+            var yyyy = oDate.getFullYear();
+            var h = oDate.getHours();
+            var ampm = h >= 12 ? "pm" : "am";
+            h = h % 12;
+            h = h ? h : 12;
+            var hh = ("0" + h).slice(-2);
+            var min = ("0" + oDate.getMinutes()).slice(-2);
 
-    return dd + "/" + mm + "/" + yyyy + " " + hh + ":" + min + ampm;
-}
+            return dd + "/" + mm + "/" + yyyy + " " + hh + ":" + min + ampm;
+        }
     });
 
     return PageController;

@@ -5,7 +5,6 @@ sap.ui.define(['sap/uxap/BlockBase'], function (BlockBase) {
 		metadata: {}
 	});
 
-
 	return BlockSocial;
 
 });
