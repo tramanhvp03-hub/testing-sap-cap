@@ -1,16 +1,21 @@
-sap.ui.define([
-  "sap/ui/core/format/DateFormat"
-], function(DateFormat) {
-  "use strict";
-   console.log("formatter module loaded");
-  return {
-    formatcreateddate: function(sDate) {
-       console.log("Formatter called with:", sDate);
-      if (!sDate) return "";
-      var oDate = (sDate instanceof Date) ? sDate : new Date(sDate);
-      if (isNaN(oDate.getTime())) return sDate;
-      var oDateFormat = DateFormat.getDateInstance({pattern: "dd-MM-yyyy"});
-      return oDateFormat.format(oDate);
-    }
-  };
+sap.ui.define([], function () {
+    "use strict";
+    return {
+        formatDateTime: function (vValue) {
+            if (!vValue) return "";
+            var oDate = (vValue instanceof Date) ? vValue : new Date(vValue);
+            if (isNaN(oDate.getTime())) return vValue;
+
+            var dd = ("0" + oDate.getDate()).slice(-2);
+            var mm = ("0" + (oDate.getMonth() + 1)).slice(-2);
+            var yyyy = oDate.getFullYear();
+            var h = oDate.getHours();
+            var ampm = h >= 12 ? "PM" : "AM";
+            h = h % 12 || 12;
+            var hh = ("0" + h).slice(-2);
+            var min = ("0" + oDate.getMinutes()).slice(-2);
+
+            return dd + "/" + mm + "/" + yyyy + " " + hh + ":" + min + " " + ampm;
+        }
+    };
 });
