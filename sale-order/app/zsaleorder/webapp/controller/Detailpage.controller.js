@@ -3,11 +3,14 @@ sap.ui.define([
     'sap/ui/core/mvc/Controller',
     'sap/ui/core/routing/History',
     'sap/m/MessageBox',
-    'sap/ui/model/json/JSONModel'
-], function (MessageToast, Controller, History, MessageBox, JSONModel) {
+    'sap/ui/model/json/JSONModel',
+    "zsaleorder/model/formatter"
+], function (MessageToast, Controller, History, MessageBox, JSONModel, formatter) {
     "use strict";
 
     var PageController = Controller.extend("zsaleorder.controller.Detailpage", {
+        formatter: formatter,
+        
         onInit: function () {
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("RouteDetailpage").attachPatternMatched(this._onObjectMatched, this);
@@ -16,6 +19,10 @@ sap.ui.define([
                 editable: false
             });
             this.getView().setModel(oUIModel, "ui");
+        },
+
+        formatCreatedAtTest: function(){
+            alert('a')
         },
 
         onNavBack: function () {

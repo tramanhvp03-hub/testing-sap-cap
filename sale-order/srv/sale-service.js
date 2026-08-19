@@ -2,7 +2,7 @@ const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function () {
   
-  // Import entities defined in CDS models
+  // Import entities defined in CDS models[]
   const { Orders, OrderItems, Customers } = this.entities;
 
   // BEFORE handler for CREATE on Orders

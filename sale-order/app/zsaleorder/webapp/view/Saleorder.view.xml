@@ -26,7 +26,7 @@
                 <f:content>
                     <fb:FilterBar id="filterbar" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" showFilterConfiguration="false" afterVariantLoad=".onAfterVariantLoad">
                         <fb:filterGroupItems>
-                            <fb:FilterGroupItem id="_IDGenFilterGroupItem" name="Product Name" label="Product Name" groupName="Default" visibleInFilterBar="true">
+                            <fb:FilterGroupItem id="_IDGenFilterGroupItem" name="Product Name"  label="Product Name" groupName="Default" visibleInFilterBar="true">
                                 <fb:control>
                                     <MultiComboBox id="_IDGenMultiComboBox" name="Product Name" selectionChange=".onSelectionChange" items="{
 												path: '/Products'						
@@ -92,16 +92,16 @@
                     <Column id="_IDGenColumn" width="16%" hAlign="Center" minScreenWidth="Tablet" demandPopin="false">
                         <Text id="_IDGenText1" text="Order ID"/>
                     </Column>
-                    <Column id="_IDGenColumn1" width="22%" minScreenWidth="Tablet" demandPopin="false">
+                    <Column id="_IDGenColumn1" width="22%" minScreenWidth="Tablet" demandPopin="true">
                         <Text id="_IDGenText2" text="Customer Name"/>
                     </Column>
-                    <Column id="_IDGenColumn2" width="33%" minScreenWidth="Tablet" demandPopin="false">
+                    <Column id="_IDGenColumn2" width="33%" minScreenWidth="Tablet" demandPopin="true">
                         <Text id="_IDGenText6" text="Product Name"/>
                     </Column>
-                    <Column id="_IDGenColumn3" width="20%" minScreenWidth="Tablet" demandPopin="false">
+                    <Column id="_IDGenColumn3" width="20%" minScreenWidth="Tablet" demandPopin="true">
                         <Text id="_IDGenText8" text="Order Date"/>
                     </Column>
-                    <Column id="_IDGenColumn6" width="28%" minScreenWidth="Tablet" demandPopin="false">
+                    <Column id="_IDGenColumn6" width="28%" minScreenWidth="Tablet" demandPopin="true">
                         <Text id="_IDGenText11" text="Created At"/>
                     </Column>
                     <Column id="_IDGenColumn7" width="6%">

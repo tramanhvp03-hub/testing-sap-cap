@@ -1,0 +1,1 @@
+using SaleService as service from '../../srv/sale-service';

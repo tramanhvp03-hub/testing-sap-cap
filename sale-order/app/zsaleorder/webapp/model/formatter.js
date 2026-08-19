@@ -1,7 +1,8 @@
 sap.ui.define([], function () {
     "use strict";
     return {
-        formatDateTime: function (vValue) {
+        formatCreatedAtA: function (vValue) {
+            console.log('zo');
             if (!vValue) return "";
             var oDate = (vValue instanceof Date) ? vValue : new Date(vValue);
             if (isNaN(oDate.getTime())) return vValue;

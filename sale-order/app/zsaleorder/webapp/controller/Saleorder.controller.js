@@ -385,9 +385,9 @@ sap.ui.define([
 
                         new Table("addProductsTable", {
                             columns: [
-                                new Column({ header: new Text({ text: "Product" }) }),
-                                new Column({ header: new Text({ text: "Quantity" }) }),
-                                new Column({ header: new Text({ text: "Price" }) })
+                                new MColumn({ header: new Text({ text: "Product" }) }),
+                                new MColumn({ header: new Text({ text: "Quantity" }) }),
+                                new MColumn({ header: new Text({ text: "Price" }) })
                             ]
                         })
                     ],
