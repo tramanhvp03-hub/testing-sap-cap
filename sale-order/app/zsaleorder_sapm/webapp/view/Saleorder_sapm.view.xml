@@ -2,70 +2,194 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 	xmlns:p="sap.m.plugins"
-	xmlns="sap.m">
-	<Table id="idProductsTable" inset="false" items="{
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:layout="sap.ui.layout" height="100%">
+	<f:DynamicPage id="dynamicPageId" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding" toggleHeaderOnTitleClick="{/titleClickable}">
+		<!-- DynamicPage Title -->
+		<f:title>
+			<f:DynamicPageTitle id="_IDGenDynamicPageTitle">
+				<f:heading>
+					<Title id="_IDGenTitle1" text="Sale Order"/>
+				</f:heading>
+				<f:actions>
+					<Button id="_IDGenButton" text="New Order" press="onCreate" type="Ghost" icon="sap-icon://add" visible="{= !${ui>/editable} }"/>
+					<Button id="_IDGenButton1" text="Edit" press="onEdit" type="Emphasized"/>
+					<Button id="_IDGenButton6" text="Save" visible="{ui>/editable}" press="onSave" type="Emphasized"/>
+					<Button id="_IDGenButton7" text="Cancel" visible="{ui>/editable}" press="onCancel" type="Reject"/>
+				</f:actions>
+			</f:DynamicPageTitle>
+		</f:title>
+		<!-- DynamicPage Header -->
+		<f:content>
+			<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+
+				<items>
+					<IconTabFilter id="_IDGenIconTabFilter" text="Orders">
+						<Table id="idProductsTable" inset="false" mode="SingleSelectMaster" items="{
 			path: '/Orders',
             parameters: {
               $expand: 'items($expand=product),customer'}
 		}">
-		<headerToolbar>
-			<OverflowToolbar id="_IDGenOverflowToolbar">
-				<content>
-					<Title id="_IDGenTitle" text="Products" level="H2"/>
-					<ToolbarSpacer id="_IDGenToolbarSpacer" />
-					<Button id="_IDGenButton1" text="Create Order" icon="sap-icon://add" type="Emphasized" press=".onCreateOrder"/>
-                    <Button id="_IDGenButton2" text="Refresh" icon="sap-icon://refresh" press=".onRefresh"/>
-					<ComboBox id="idPopinLayout" placeholder="Popin layout options" change=".onPopinLayoutChanged">
-						<items>
-							<core:Item id="_IDGenItem" text="Block" key="Block"/>
-							<core:Item id="_IDGenItem1" text="Grid Large" key="GridLarge"/>
-							<core:Item id="_IDGenItem2" text="Grid Small" key="GridSmall"/>
-						</items>
-					</ComboBox>
-					<Label id="_IDGenLabel" text="Sticky options:" />
-					<CheckBox id="_IDGenCheckBox" text="ColumnHeaders" select=".onSelect"/>
-					<CheckBox id="_IDGenCheckBox1" text="HeaderToolbar" select=".onSelect"/>
-					<CheckBox id="_IDGenCheckBox2" text="InfoToolbar" select=".onSelect"/>
-					<ToggleButton id="toggleInfoToolbar" text="Hide/Show InfoToolbar" press=".onToggleInfoToolbar" />
-				</content>
-			</OverflowToolbar>
-		</headerToolbar>
-		<infoToolbar>
-			<OverflowToolbar id="_IDGenOverflowToolbar1">
-				<Label id="_IDGenLabel1" text="Wide range of available products"/>
-			</OverflowToolbar>
-		</infoToolbar>
-		<columns>
-		<Column id="_IDGenColumn6"
-				width="15em" hAlign="Center">
-						<Text id="_IDGenText" text="Order ID" />
-				<dependents>
-					<p:ColumnAIAction id="_IDGenColumnAIAction" press=".onAIActionPress"></p:ColumnAIAction>
-				</dependents>
-			</Column>
-			<Column id="_IDGenColumn1" minScreenWidth="Tablet" demandPopin="true">
-				<Text id="_IDGenText1" text="Product Name" />
-			</Column>
-			<Column id="_IDGenColumn2" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
-				<Text id="_IDGenText2" text="Customer Name" />
-			</Column>
-			<Column id="_IDGenColumn3" minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
-				<Text id="_IDGenText3" text="Order Date" />
-			</Column>
-			<Column id="_IDGenColumn4" hAlign="End">
-				<Text id="_IDGenText4" text="Created At" />
-			</Column>
-		</columns>
-		<items>
-			<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle">
-				<cells>
-					<ObjectIdentifier id="_IDGenObjectIdentifier" title="{ID}"/>
-					<Text id="_IDGenText5" text="{items/product/name}" />
-					<Text id="_IDGenText6" text="{customer/name}" />
-					<Text id="_IDGenText7" text="{orderDate}" />
-					<Text id="_IDGenText8" text="{createdAt}" />
-				</cells>
-			</ColumnListItem>
-		</items>
-	</Table>
+							<headerToolbar>
+								<OverflowToolbar id="_IDGenOverflowToolbar">
+									<content>
+										<Title id="_IDGenTitle" text="Order Detail" level="H2"/>
+										<ToolbarSpacer id="_IDGenToolbarSpacer" />
+										<Button id="_IDGenButton5" text="Delete" press="onDelete" visible="{= !${ui>/editable} }" type="Reject" icon="sap-icon://delete"/>
+										<Button id="_IDGenButton2" text="Refresh" icon="sap-icon://refresh" press=".onRefresh"/>
+										<ComboBox id="idPopinLayout" placeholder="Popin layout options" change=".onPopinLayoutChanged">
+											<items>
+												<core:Item id="_IDGenItem" text="Block" key="Block"/>
+												<core:Item id="_IDGenItem1" text="Grid Large" key="GridLarge"/>
+												<core:Item id="_IDGenItem2" text="Grid Small" key="GridSmall"/>
+											</items>
+										</ComboBox>
+										<Label id="_IDGenLabel" text="Sticky options:" />
+										<CheckBox id="_IDGenCheckBox" text="ColumnHeaders" select=".onSelect"/>
+										<CheckBox id="_IDGenCheckBox1" text="HeaderToolbar" select=".onSelect"/>
+										<CheckBox id="_IDGenCheckBox2" text="InfoToolbar" select=".onSelect"/>
+										<ToggleButton id="toggleInfoToolbar" text="Hide/Show InfoToolbar" press=".onToggleInfoToolbar" />
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+
+							<columns>
+								<Column id="_IDGenColumn6" width="15em" hAlign="Center">
+									<Text id="_IDGenText" text="Order ID" />
+								</Column>
+								<Column id="_IDGenColumn1" minScreenWidth="Tablet" demandPopin="true">
+									<Text id="_IDGenText1" text="Product Name" />
+								</Column>
+								<Column id="_IDGenColumn2" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
+									<Text id="_IDGenText2" text="Customer Name" />
+								</Column>
+								<Column id="_IDGenColumn3" minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+									<Text id="_IDGenText3" text="Order Date" />
+								</Column>
+								<Column id="_IDGenColumn4" hAlign="End">
+									<Text id="_IDGenText4" text="Created At" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle">
+									<cells>
+										<ObjectIdentifier id="_IDGenObjectIdentifier" title="{ID}"/>
+										<Text id="_IDGenText5" text="{items/product/name}" />
+										<Input id="_IDGenText6" valueLiveUpdate="true" editable="{ui>/editable}" value="{customer/name}" />
+										<DatePicker id="_IDGenText7" editable="{ui>/editable}" dateValue="{orderDate}" />
+										<Text id="_IDGenText8" text="{createdAt}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+
+					<IconTabFilter id="_IDGenIconTabFilter1" text="Product Info">
+						<Table id="idProductsTable2" inset="false" items="{
+			path: '/Orders',
+            parameters: {
+              $expand: 'items($expand=product),customer'}
+		}">
+							<headerToolbar>
+								<OverflowToolbar id="_IDGenOverflowToolbar3">
+									<content>
+										<Title id="_IDGenTitle3" text="Product Information" level="H2"/>
+										<ToolbarSpacer id="_IDGenToolbarSpacer2" />
+										<Button id="_IDGenButton14" text="Refresh" icon="sap-icon://refresh" press=".onRefresh"/>
+										<ComboBox id="idPopinLayout2" placeholder="Popin layout options" change=".onPopinLayoutChanged">
+											<items>
+												<core:Item id="_IDGenItem7" text="Block" key="Block"/>
+												<core:Item id="_IDGenItem6" text="Grid Large" key="GridLarge"/>
+												<core:Item id="_IDGenItem8" text="Grid Small" key="GridSmall"/>
+											</items>
+										</ComboBox>
+										<Label id="_IDGenLabel6" text="Sticky options:" />
+										<CheckBox id="_IDGenCheckBox13" text="ColumnHeaders" select=".onSelect"/>
+										<CheckBox id="_IDGenCheckBox14" text="HeaderToolbar" select=".onSelect"/>
+										<CheckBox id="_IDGenCheckBox15" text="InfoToolbar" select=".onSelect"/>
+										<ToggleButton id="toggleInfoToolbar2" text="Hide/Show InfoToolbar" press=".onToggleInfoToolbar" />
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column id="_IDGenColumn13" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+									<Text id="_IDGenText13" text="Product ID" />
+								</Column>
+								<Column id="_IDGenColumn15" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
+									<Text id="_IDGenText19" text="Product Name" />
+								</Column>
+								<Column id="_IDGenColumn16" hAlign="Begin">
+									<Text id="_IDGenText18" text="Price" />
+								</Column>
+								<Column id="_IDGenColumn17" hAlign="Begin">
+									<Text id="_IDGenText23" text="Stock" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem id="_IDGenColumnListItem2" vAlign="Middle">
+									<cells>
+										<Text id="_IDGenText20" text="{items/product/ID}" />
+										<Text id="_IDGenText21" text="{items/product/name}" />
+										<Input id="_IDGenText22" valueLiveUpdate="true" editable="{ui>/editable}" value="{items/product/price}" />
+										<Input id="_IDGenText24" valueLiveUpdate="true" editable="{ui>/editable}" value="{items/product/stock}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+
+					<IconTabFilter id="_IDGenIconTabFilte2" text="Customer Info">
+						<Table id="idProductsTable1" inset="false" items="{
+			path: '/Orders',
+            parameters: {
+              $expand: 'items($expand=product),customer'}
+		}">
+							<headerToolbar>
+								<OverflowToolbar id="_IDGenOverflowToolbar2">
+									<content>
+										<Title id="_IDGenTitle2" text="Customer Infomation" level="H2"/>
+										<ToolbarSpacer id="_IDGenToolbarSpacer1" />
+										<Button id="_IDGenButton12" text="Refresh" icon="sap-icon://refresh" press=".onRefresh"/>
+										<ComboBox id="idPopinLayout1" placeholder="Popin layout options" change=".onPopinLayoutChanged">
+											<items>
+												<core:Item id="_IDGenItem4" text="Block" key="Block"/>
+												<core:Item id="_IDGenItem11" text="Grid Large" key="GridLarge"/>
+												<core:Item id="_IDGenItem12" text="Grid Small" key="GridSmall"/>
+											</items>
+										</ComboBox>
+										<Label id="_IDGenLabel5" text="Sticky options:" />
+										<CheckBox id="_IDGenCheckBox10" text="ColumnHeaders" select=".onSelect"/>
+										<CheckBox id="_IDGenCheckBox11" text="HeaderToolbar" select=".onSelect"/>
+										<CheckBox id="_IDGenCheckBox12" text="InfoToolbar" select=".onSelect"/>
+										<ToggleButton id="toggleInfoToolbar1" text="Hide/Show InfoToolbar" press=".onToggleInfoToolbar" />
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column id="_IDGenColumn11" minScreenWidth="Tablet" demandPopin="true" hAlign="Center">
+									<Text id="_IDGenText11" text="Customer ID" />
+								</Column>
+								<Column id="_IDGenColumn12" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
+									<Text id="_IDGenText12" text="Customer Name" />
+								</Column>
+								<Column id="_IDGenColumn14" hAlign="Begin">
+									<Text id="_IDGenText14" text="Email" />
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem id="_IDGenColumnListItem1" vAlign="Middle">
+									<cells>
+										<Text id="_IDGenText15" text="{customer/ID}" />
+										<Input id="_IDGenText16" valueLiveUpdate="true" editable="{ui>/editable}" value="{customer/name}" />
+										<Input id="_IDGenText17" valueLiveUpdate="true" editable="{ui>/editable}" value="{customer/email}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</f:content>
+	</f:DynamicPage>
 </mvc:View>

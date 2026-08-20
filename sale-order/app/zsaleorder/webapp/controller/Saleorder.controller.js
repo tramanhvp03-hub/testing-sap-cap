@@ -66,7 +66,6 @@ sap.ui.define([
             });
             this.oSmartVariantManagement.addPersonalizableControl(oPersInfo);
             this.oSmartVariantManagement.initialise(function () { }, this.oFilterBar);
-
         },
 
         onExit: function () {

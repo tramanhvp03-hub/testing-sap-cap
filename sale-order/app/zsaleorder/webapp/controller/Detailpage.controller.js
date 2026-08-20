@@ -21,10 +21,6 @@ sap.ui.define([
             this.getView().setModel(oUIModel, "ui");
         },
 
-        formatCreatedAtTest: function(){
-            alert('a')
-        },
-
         onNavBack: function () {
             var oHistory = History.getInstance();
             var sPreviousHash = oHistory.getPreviousHash();
@@ -53,22 +49,6 @@ sap.ui.define([
             }
 
             this.getView().getModel("ui").setProperty("/editable", false);
-        },
-
-        onSavePress: function () {
-            var oModel = this.getView().getModel();
-
-            if (oModel.hasPendingChanges()) {
-                oModel.submitBatch("$auto").then(function () {
-                    MessageToast.show("Changes saved successfully!");
-                    this.getView().getModel("ui").setProperty("/editable", false);
-                }.bind(this)).catch(function (oError) {
-                    console.error("Save Error:", oError);
-                    MessageBox.error("Save failed: " + (oError.message || "Unknown error"));
-                });
-            } else {
-                this.getView().getModel("ui").setProperty("/editable", false);
-            }
         },
 
         onSaveInline: function () {

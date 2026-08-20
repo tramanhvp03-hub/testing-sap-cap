@@ -3,7 +3,7 @@
     xmlns:core="sap.ui.core" 
     xmlns:f="sap.ui.layout.form">
     
-    <Dialog id="_IDGenDialog" title="Tạo Đơn Hàng Mới" icon="sap-icon://add" contentWidth="400px">
+    <Dialog id="_IDGenDialog" title="Create New Order" icon="sap-icon://add" contentWidth="400px">
         <content>
             <f:SimpleForm id="_IDGenSimpleForm" layout="ColumnLayout" editable="true">
                 <!-- Chọn Sản Phẩm -->
@@ -16,20 +16,15 @@
                 </ComboBox>
 
                 <!-- Chọn Khách Hàng -->
-                <Label id="_IDGenLabel3" text="Khách hàng" required="true" />
-                <ComboBox id="_IDGenComboBox3" 
-                    selectedKey="{newOrder>/customer_ID}" 
-                    items="{path: '/Customers'}"
-                    placeholder="Chọn khách hàng...">
-                    <core:Item id="_IDGenItem6" key="{ID}" text="{name}" />
-                </ComboBox>
+                <Label id="_IDGenLabel3" text="Customer Name" required="true" />
+                <Input id="_IDGenInput" />
             </f:SimpleForm>
         </content>
         <beginButton>
-            <Button id="_IDGenButton3" text="Lưu" type="Emphasized" press=".onSaveNewOrder" />
+            <Button id="_IDGenButton3" text="Save" type="Emphasized" press=".onSaveNewOrder" />
         </beginButton>
         <endButton>
-            <Button id="_IDGenButton4" text="Hủy" press=".onCloseDialog" />
+            <Button id="_IDGenButton4" text="Cancel" press=".onCloseDialog" />
         </endButton>
     </Dialog>
 </core:FragmentDefinition>
