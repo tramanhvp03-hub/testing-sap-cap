@@ -10,7 +10,7 @@ sap.ui.define([
 
     var PageController = Controller.extend("zsaleorder.controller.Detailpage", {
         formatter: formatter,
-        
+
         onInit: function () {
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("RouteDetailpage").attachPatternMatched(this._onObjectMatched, this);
@@ -54,16 +54,15 @@ sap.ui.define([
         onSaveInline: function () {
             var oModel = this.getView().getModel();
             var oUIModel = this.getView().getModel("ui");
-            var oTable = this.byId("table");
 
-            if (oModel.hasPendingChanges()) {
-                oModel.submitBatch("$auto").then(function () {
+            if (oModel.hasPendingChanges("myUpdateGroup")) {
+                // Submit toàn bộ thay đổi trong batch group mặc định ($auto)
+                oModel.submitBatch("myUpdateGroup").then(function () {
                     MessageToast.show("Changes saved successfully!");
                     oUIModel.setProperty("/editable", false);
 
-                    if (oTable && oTable.getBinding("items")) {
-                        oTable.getBinding("items").refresh();
-                    }
+                    // Rebind lại element để cập nhật lại dữ liệu mới nhất từ server
+                    this.getView().getElementBinding().refresh();
                 }.bind(this)).catch(function (oError) {
                     console.error("Save Error:", oError);
                     MessageBox.error("Failed to save changes: " + (oError.message || "Unknown error"));
@@ -101,7 +100,7 @@ sap.ui.define([
                     }
 
                     // Gọi hàm xóa dạng Promise
-                    oContext.delete().then(function () {
+                    oContext.delete("$auto").then(function () {
                         MessageToast.show("Sale Order deleted successfully!");
                         that.getOwnerComponent().getRouter().navTo("RouteSaleorder", {}, true);
                     }).catch(function (oError) {
@@ -130,10 +129,13 @@ sap.ui.define([
 
             // Bind dữ liệu Order vào View
             this.getView().bindElement({
-                path: "/Orders(" + sOrderId + ")"
+                path: "/Orders(" + sOrderId + ")",
+                parameters: {
+                    $expand: "customer,items($expand=product)"
+                }
             });
         },
-  
+
         formatCreatedAt: function (vValue) {
             if (!vValue) return "";
             var oDate = (vValue instanceof Date) ? vValue : new Date(vValue);

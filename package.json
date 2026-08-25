@@ -82,7 +82,7 @@
         "kind": "sqlite",
         "model": "db/",
         "credentials": {
-          "database": "sqlite.db"
+          "database": "db.sqlite"
         }
       }
     }

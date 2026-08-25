@@ -32,7 +32,7 @@
 
 					<ObjectPageSubSection id="productSS2" title="Product" titleUppercase="false">
 						<blocks>
-							<product:BlockProDetailPart1 id="productdetailpart1" columnLayout="1"/>
+							<product:BlockProDetailPart1 id="productdetailpart1"/>
 						</blocks>
 					</ObjectPageSubSection>
 

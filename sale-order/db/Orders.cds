@@ -8,5 +8,5 @@ entity Orders : managed {
   key ID       : UUID;                                                  //@title: Order ID 
   customer     : Association to Customers;                              //@title: Customer
   orderDate    : Date;                                                  //@title: Order Date
-  items        : Composition of OrderItems on items.order = $self;      //@title: Item
+  items        : Composition of many OrderItems on items.order = $self;      //@title: Item
 }

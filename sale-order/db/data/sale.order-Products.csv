@@ -1,14 +1,21 @@
-ID,name,price,stock
-101,Laptop Dell XPS 13,1500.00,25
-102,Chuột Logitech MX Master,100.00,10
-103,iPhone 15 Pro,1200.00,45
-104,MacBook Air M2,1350.00,30
-105,Tai nghe Sony WH-1000XM5,300.00,50
-106,Monitor LG UltraWide 34,750.00,20
-107,Bàn phím cơ Keychron K2,250.00,40
-108,Ổ cứng SSD Samsung 1TB,300.00,60
-109,Loa Bluetooth JBL Charge 5,200.00,35
-110,Apple iPad Air 2024,950.00,15
-111,Smartwatch Garmin Forerunner 265,200.00,25
-112,Camera Canon EOS R10,900.00,12
-113,Router WiFi Asus AX6000,500.00,18
+ID,name,price,stock,createdAt,createdBy,modifiedAt,modifiedBy
+Products-6209157,name-6209157,3201836.55,17,2011-03-04T17:00:00.000Z,createdBy.3p30l@example.com,2001-12-14T17:00:00.000Z,modifiedBy.3p30l@example.com
+Products-3462743,name-3462743,4110501.67,69,2014-11-07T17:00:00.000Z,createdBy.227vb@example.com,2010-04-06T17:00:00.000Z,modifiedBy.227vb@example.com
+Products-3462744,name-3462744,9410916.32,40,2013-10-28T17:00:00.000Z,createdBy.227vc@example.net,2002-08-17T17:00:00.000Z,modifiedBy.227vc@example.org
+Products-3462745,name-3462745,1311337.66,28,2023-01-03T17:00:00.000Z,createdBy.227vd@example.org,2002-03-22T17:00:00.000Z,modifiedBy.227vd@example.net
+Products-3462746,name-3462746,4566241.27,72,2006-03-29T17:00:00.000Z,createdBy.227ve@example.com,2007-04-03T17:00:00.000Z,modifiedBy.227ve@example.net
+Products-3462747,name-3462747,912969.64,19,2010-05-06T17:00:00.000Z,createdBy.227vf@example.net,2018-03-11T17:00:00.000Z,modifiedBy.227vf@example.org
+Products-3462748,name-3462748,2765617.64,20,2015-07-08T17:00:00.000Z,createdBy.227vg@example.org,2009-09-18T17:00:00.000Z,modifiedBy.227vg@example.org
+Products-3462749,name-3462749,4261933.67,63,2011-05-04T17:00:00.000Z,createdBy.227vh@example.com,2011-12-29T17:00:00.000Z,modifiedBy.227vh@example.net
+Products-3462750,name-3462750,8814988.45,69,2006-03-16T17:00:00.000Z,createdBy.227vi@example.org,2019-05-13T17:00:00.000Z,modifiedBy.227vi@example.net
+Products-3462751,name-3462751,982110.56,19,2010-11-02T17:00:00.000Z,createdBy.227vj@example.com,2012-10-31T17:00:00.000Z,modifiedBy.227vj@example.net
+Products-3462752,name-3462752,6774993.19,6,2018-05-01T17:00:00.000Z,createdBy.227vk@example.org,2001-12-24T17:00:00.000Z,modifiedBy.227vk@example.com
+Products-3462753,name-3462753,1899128.25,98,2022-07-04T17:00:00.000Z,createdBy.227vl@example.org,2003-01-22T17:00:00.000Z,modifiedBy.227vl@example.org
+Products-3462754,name-3462754,8357447.29,6,2003-08-09T17:00:00.000Z,createdBy.227vm@example.com,2000-03-22T17:00:00.000Z,modifiedBy.227vm@example.com
+Products-3462755,name-3462755,6790409.67,65,2019-03-21T17:00:00.000Z,createdBy.227vn@example.org,2000-01-15T17:00:00.000Z,modifiedBy.227vn@example.org
+Products-3462756,name-3462756,5413847.64,10,2007-11-20T17:00:00.000Z,createdBy.227vo@example.net,2014-04-09T17:00:00.000Z,modifiedBy.227vo@example.net
+Products-3462757,name-3462757,9438845.42,44,2014-08-28T17:00:00.000Z,createdBy.227vp@example.net,2004-12-03T17:00:00.000Z,modifiedBy.227vp@example.org
+Products-3462758,name-3462758,6405924.49,12,2004-12-27T17:00:00.000Z,createdBy.227vq@example.org,2005-07-01T17:00:00.000Z,modifiedBy.227vq@example.org
+Products-3462759,name-3462759,2027057.1,90,2007-12-05T17:00:00.000Z,createdBy.227vr@example.com,2000-08-05T17:00:00.000Z,modifiedBy.227vr@example.org
+Products-3462760,name-3462760,4601369.14,72,2011-11-01T17:00:00.000Z,createdBy.227vs@example.com,2012-10-21T17:00:00.000Z,modifiedBy.227vs@example.net
+Products-3462761,name-3462761,1861651,49,2002-04-13T17:00:00.000Z,createdBy.227vt@example.net,2015-08-21T17:00:00.000Z,modifiedBy.227vt@example.net

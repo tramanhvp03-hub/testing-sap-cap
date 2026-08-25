@@ -1,20 +1,26 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core"
-		  xmlns:forms="sap.ui.layout.form" xmlns="sap.m">
+		  xmlns:forms="sap.ui.layout.form" xmlns="sap.m" height="100%">
 
-	<forms:SimpleForm id="_IDGenSimpleForm5" labelSpanL="4" labelSpanM="4" editable="false"
-					  labelSpanS="4" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-					  maxContainerCols="2" layout="ResponsiveGridLayout"
-					  width="100%">
-		<Label id="_IDGenLabel26" text="Product ID"/>
-		<Text id="_IDGenText27" text="{items/product/ID}"/>
-
-		<Label id="_IDGenLabel24" text="Name"/>
-		<Text id="_IDGenText25" text="{items/product/name}"/>
-
-		<Label id="_IDGenLabel27" text="Price"/>
-		<Text id="_IDGenText28" text="{items/product/price}"/>
-
-		<Label id="_IDGenLabel29" text="Stock"/>
-		<Input id="_IDGenText30" editable="{ui>/editable}" type="Number" value="{items/product/stock}"/>
-	</forms:SimpleForm>
+	<Table id="itemsTable2" items="{items}" width="100%">
+        <columns>
+            <Column id="_IDGenColumn13" ><Text id="_IDGenText18" text="Product ID" /></Column>
+            <Column id="_IDGenColumn14" ><Text id="_IDGenText21" text="Product Name" /></Column>
+            <Column id="_IDGenColumn15" ><Text id="_IDGenText22" text="Price" /></Column>
+            <Column id="_IDGenColumn16" ><Text id="_IDGenText23" text="Stock" /></Column>
+        </columns>
+        <items>
+            <ColumnListItem id="_IDGenColumnListItem3" >
+                <cells>
+                    <Text id="_IDGenText24" text="{product/ID}" />
+                    <Text id="_IDGenInput3" text="{product/name}" />
+                    <Text id="_IDGenText26" text="{product/price}" />
+                    <Input id="_IDGenText29" value="{
+                                                        path: 'product/stock',
+                                                        type: 'sap.ui.model.type.Integer'
+                                                    }" 
+                                            editable="{ui>/editable}" />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
 </mvc:View>

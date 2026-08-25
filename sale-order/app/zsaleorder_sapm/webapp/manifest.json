@@ -60,6 +60,7 @@
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "zsaleordersapm.i18n.i18n"
+         
         }
       },
       "": {
@@ -68,7 +69,8 @@
         "settings": {
           "operationMode": "Server",
           "autoExpandSelect": true,
-          "earlyRequests": true
+          "earlyRequests": true,
+           "updateGroupId": "mySaveGroup"
         }
       }
     },

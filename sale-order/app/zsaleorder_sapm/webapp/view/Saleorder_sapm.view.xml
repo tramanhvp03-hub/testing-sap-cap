@@ -5,7 +5,7 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:layout="sap.ui.layout" height="100%">
-	<f:DynamicPage id="dynamicPageId" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding" toggleHeaderOnTitleClick="{/titleClickable}">
+	<f:DynamicPage id="dynamicPageId" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding" toggleHeaderOnTitleClick="{path: '/titleClickable', targetType: 'any'}">
 		<!-- DynamicPage Title -->
 		<f:title>
 			<f:DynamicPageTitle id="_IDGenDynamicPageTitle">
@@ -14,7 +14,7 @@
 				</f:heading>
 				<f:actions>
 					<Button id="_IDGenButton" text="New Order" press="onCreate" type="Ghost" icon="sap-icon://add" visible="{= !${ui>/editable} }"/>
-					<Button id="_IDGenButton1" text="Edit" press="onEdit" type="Emphasized"/>
+					<Button id="_IDGenButton1" text="Edit" visible="{=!${ui>/editable} }" press="onEdit" type="Emphasized"/>
 					<Button id="_IDGenButton6" text="Save" visible="{ui>/editable}" press="onSave" type="Emphasized"/>
 					<Button id="_IDGenButton7" text="Cancel" visible="{ui>/editable}" press="onCancel" type="Reject"/>
 				</f:actions>
@@ -29,16 +29,17 @@
 						<Table id="idProductsTable" inset="false" mode="SingleSelectMaster" items="{
 			path: '/Orders',
             parameters: {
-              $expand: 'items($expand=product),customer'}
+              $expand: 'items($expand=product),customer',
+			  $$updateGroupId: 'mySaveGroup'}
 		}">
 							<headerToolbar>
 								<OverflowToolbar id="_IDGenOverflowToolbar">
 									<content>
-										<Title id="_IDGenTitle" text="Order Detail" level="H2"/>
+										<Title id="_IDGenTitle" text="Order Detail" level="H2" />
 										<ToolbarSpacer id="_IDGenToolbarSpacer" />
 										<Button id="_IDGenButton5" text="Delete" press="onDelete" visible="{= !${ui>/editable} }" type="Reject" icon="sap-icon://delete"/>
-										<Button id="_IDGenButton2" text="Refresh" icon="sap-icon://refresh" press=".onRefresh"/>
-										<ComboBox id="idPopinLayout" placeholder="Popin layout options" change=".onPopinLayoutChanged">
+										<Button id="_IDGenButton2" text="Refresh" visible="{= !${ui>/editable} }" icon="sap-icon://refresh" press=".onRefreshpress" />
+										<ComboBox id="idPopinLayout" placeholder="Popin layout options" change=".onPopinLayoutChanged" >
 											<items>
 												<core:Item id="_IDGenItem" text="Block" key="Block"/>
 												<core:Item id="_IDGenItem1" text="Grid Large" key="GridLarge"/>
@@ -49,7 +50,6 @@
 										<CheckBox id="_IDGenCheckBox" text="ColumnHeaders" select=".onSelect"/>
 										<CheckBox id="_IDGenCheckBox1" text="HeaderToolbar" select=".onSelect"/>
 										<CheckBox id="_IDGenCheckBox2" text="InfoToolbar" select=".onSelect"/>
-										<ToggleButton id="toggleInfoToolbar" text="Hide/Show InfoToolbar" press=".onToggleInfoToolbar" />
 									</content>
 								</OverflowToolbar>
 							</headerToolbar>
@@ -72,12 +72,14 @@
 								</Column>
 							</columns>
 							<items>
-								<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle">
+								<ColumnListItem id="_IDGenColumnListItem" vAlign="Middle" >
 									<cells>
-										<ObjectIdentifier id="_IDGenObjectIdentifier" title="{ID}"/>
-										<Text id="_IDGenText5" text="{items/product/name}" />
+										<ObjectIdentifier id="_IDGenObjectIdentifier" title="{ID}" />
+										<VBox id="_IDGenVBox6" items="{items}" alignContent="End">
+											<Text id="_IDGenText5" text="{product/name}" />
+										</VBox>	
 										<Input id="_IDGenText6" valueLiveUpdate="true" editable="{ui>/editable}" value="{customer/name}" />
-										<DatePicker id="_IDGenText7" editable="{ui>/editable}" dateValue="{orderDate}" />
+										<DatePicker id="_IDGenText7" editable="{ui>/editable}" dateValue="{orderDate}"  />
 										<Text id="_IDGenText8" text="{createdAt}" />
 									</cells>
 								</ColumnListItem>
@@ -89,14 +91,15 @@
 						<Table id="idProductsTable2" inset="false" items="{
 			path: '/Orders',
             parameters: {
-              $expand: 'items($expand=product),customer'}
+              $expand: 'items($expand=product),customer',
+			  $$updateGroupId: 'mySaveGroup'}
 		}">
 							<headerToolbar>
 								<OverflowToolbar id="_IDGenOverflowToolbar3">
 									<content>
 										<Title id="_IDGenTitle3" text="Product Information" level="H2"/>
 										<ToolbarSpacer id="_IDGenToolbarSpacer2" />
-										<Button id="_IDGenButton14" text="Refresh" icon="sap-icon://refresh" press=".onRefresh"/>
+										<Button id="_IDGenButton14" text="Refresh" visible="{= !${ui>/editable} }" icon="sap-icon://refresh" press=".onRefreshpress"/>
 										<ComboBox id="idPopinLayout2" placeholder="Popin layout options" change=".onPopinLayoutChanged">
 											<items>
 												<core:Item id="_IDGenItem7" text="Block" key="Block"/>
@@ -129,10 +132,18 @@
 							<items>
 								<ColumnListItem id="_IDGenColumnListItem2" vAlign="Middle">
 									<cells>
-										<Text id="_IDGenText20" text="{items/product/ID}" />
-										<Text id="_IDGenText21" text="{items/product/name}" />
-										<Input id="_IDGenText22" valueLiveUpdate="true" editable="{ui>/editable}" value="{items/product/price}" />
-										<Input id="_IDGenText24" valueLiveUpdate="true" editable="{ui>/editable}" value="{items/product/stock}" />
+									<VBox id="_IDGenVBox3" items="{items}">
+										<Text id="_IDGenText20" text="{product/ID}" />
+										</VBox>	
+										<VBox id="_IDGenVBox" items="{items}">
+											<Text id="_IDGenText21" text="{product/name}" />
+										</VBox>	
+										<VBox id="_IDGenVBox4" items="{items}">	
+										<Input id="_IDGenText22" valueLiveUpdate="true" editable="{ui>/editable}" value="{product/price}" />
+										</VBox>	
+										<VBox id="_IDGenVBox2" items="{items}">
+										<Input id="_IDGenText24" valueLiveUpdate="true" editable="{ui>/editable}" value="{product/stock}" />
+										</VBox>	
 									</cells>
 								</ColumnListItem>
 							</items>
@@ -143,14 +154,15 @@
 						<Table id="idProductsTable1" inset="false" items="{
 			path: '/Orders',
             parameters: {
-              $expand: 'items($expand=product),customer'}
+              $expand: 'items($expand=product),customer',
+			  $$updateGroupId: 'mySaveGroup'}
 		}">
 							<headerToolbar>
 								<OverflowToolbar id="_IDGenOverflowToolbar2">
 									<content>
 										<Title id="_IDGenTitle2" text="Customer Infomation" level="H2"/>
 										<ToolbarSpacer id="_IDGenToolbarSpacer1" />
-										<Button id="_IDGenButton12" text="Refresh" icon="sap-icon://refresh" press=".onRefresh"/>
+										<Button id="_IDGenButton12" text="Refresh" visible="{= !${ui>/editable} }" icon="sap-icon://refresh" press=".onRefreshpress"/>
 										<ComboBox id="idPopinLayout1" placeholder="Popin layout options" change=".onPopinLayoutChanged">
 											<items>
 												<core:Item id="_IDGenItem4" text="Block" key="Block"/>
