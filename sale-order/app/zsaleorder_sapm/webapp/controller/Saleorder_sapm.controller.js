@@ -2,25 +2,9 @@ sap.ui.define([
     'sap/ui/core/mvc/Controller',
     'sap/ui/model/json/JSONModel',
     'sap/m/MessageToast',
-    'sap/m/library',
     "sap/ui/core/Fragment",
-    'sap/m/Label',
-    'sap/m/Input',
-    'sap/m/Column',
-    'sap/m/DatePicker',
-    'sap/m/Title',
-    'sap/m/Toolbar',
-    'sap/m/ToolbarSpacer',
-    'sap/m/Button',
-    'sap/m/Table',
-    'sap/m/ComboBox',
-    'sap/ui/core/ListItem',
-    'sap/m/ColumnListItem',
-    'sap/m/Dialog',
-    'sap/m/Text',
     'sap/m/MessageBox',
-], function (Controller, JSONModel, MessageToast, mobileLibrary, Fragment, Label, Input, MColumn, DatePicker,
-    Title, Toolbar, ToolbarSpacer, Button, Table, ComboBox, ListItem, ColumnListItem, Dialog, Text, MessageBox
+], function (Controller, JSONModel, MessageToast, Fragment,  MessageBox
 ) {
     "use strict";
     var TableController = Controller.extend("zsaleordersapm.controller.Saleorder_sapm", {
@@ -34,7 +18,7 @@ sap.ui.define([
 
         onCreate: function () {
             // 1. Khoi tao JSONModel voi du lieu trong
-            var oCreateModel = new sap.ui.model.json.JSONModel({
+            var oCreateModel = new JSONModel({
                 customerName: "",
                 orderDate: "",
                 items: []
@@ -119,73 +103,80 @@ sap.ui.define([
         },
 
         onSaveSaleOrder: function () {
-            var oModel = this.getView().getModel();
-            var oCustomerInput = this.byId("addCustomer");
-            var oDatePicker = this.byId("addOrderDate");
-            var oTable = this.byId("addProductsTable");
+            var oCreateModel = this.getView().getModel("createModel");
+            var oData = oCreateModel ? oCreateModel.getData() : {};
 
-            var sCustomer = oCustomerInput ? oCustomerInput.getValue().trim() : "";
-            var sOrderDate = oDatePicker ? oDatePicker.getValue() : "";
+            var sCustomerName = oData.customerName ? oData.customerName.trim() : "";
+            var sOrderDate = oData.orderDate || "";
+            var aItems = oData.items || [];
 
-            if (!sCustomer || !sOrderDate) {
-                MessageBox.warning("Customer name and Order date cannot be empty!");
+            if (!sCustomerName || !sOrderDate) {
+                sap.m.MessageBox.warning("Please fill in Customer Name and Order Date!");
                 return;
             }
 
-            var aItems = oTable ? oTable.getItems() : [];
             if (aItems.length === 0) {
-                MessageBox.warning("Please add at least one product!");
+                sap.m.MessageBox.warning("Please add at least one product!");
                 return;
             }
 
-            var aOrderItems = [];
+            var aPayloadItems = [];
             for (var i = 0; i < aItems.length; i++) {
-                var aCells = aItems[i].getCells();
-                var sProductId = aCells[0].getSelectedKey();
-                var iQty = Number(aCells[1].getValue().trim());
-
-                if (!sProductId || iQty <= 0) {
-                    MessageBox.warning("Please check product and quantity at row " + (i + 1));
+                var item = aItems[i];
+                if (!item.product_ID || !item.quantity || Number(item.quantity) <= 0) {
+                    sap.m.MessageBox.warning("Please select product and valid quantity at row " + (i + 1));
                     return;
                 }
-                aOrderItems.push({ product_ID: String(sProductId), quantity: iQty });
+                aPayloadItems.push({
+                    product_ID: String(item.product_ID),
+                    quantity: Number(item.quantity)
+                });
             }
 
             sap.ui.core.BusyIndicator.show(0);
+            var oMainModel = this.getView().getModel();
 
-            // BƯỚC 1: TẠO CUSTOMER
-            var oCustomersBinding = oModel.bindList("/Customers", null, null, null, { $$groupId: "$auto" });
-            var oCustContext = oCustomersBinding.create({
-                ID: String(Date.now()),
-                name: sCustomer
+            // 1. Tạo Customer trong group mặc định
+            var oCustBinding = oMainModel.bindList("/Customers");
+            var oCustContext = oCustBinding.create({
+                name: sCustomerName
             });
 
-            // Chờ Customer tạo xong
-            oCustContext.created().then(function () {
+            // 2. Gọi submitBatch để ÉP OData V4 gửi ngay request lên Server
+            oMainModel.submitBatch("mySaveGroup").then(function () {
                 var sCustomerID = oCustContext.getProperty("ID");
 
-                // BƯỚC 2: TẠO ORDER (Dùng $$groupId: "$auto" để kích hoạt POST luôn)
-                var oOrdersBinding = oModel.bindList("/Orders", null, null, null, { $$groupId: "$auto" });
-                var oOrderContext = oOrdersBinding.create({
-                    ID: String(Date.now() + 1),
-                    customer_ID: String(sCustomerID),
+                if (!sCustomerID) {
+                    throw new Error("Cannot get Customer ID from server response");
+                }
+
+                // 3. Sau khi có ID Customer, tiếp tục tạo Order và Items
+                var oOrderBinding = oMainModel.bindList("/Orders");
+                var oOrderContext = oOrderBinding.create({
+                    customer_ID: sCustomerID,
                     orderDate: sOrderDate,
-                    items: aOrderItems
+                    items: aPayloadItems
                 });
 
-                return oOrderContext.created();
+                // Submit tiếp lượt 2 cho Order
+                return oMainModel.submitBatch("mySaveGroup");
             }.bind(this)).then(function () {
                 sap.ui.core.BusyIndicator.hide();
-                MessageToast.show("Sale Order created successfully!");
+                sap.m.MessageToast.show("Sale Order created successfully!");
 
                 this.onCloseAddDialog();
-                this._onRefresh();
 
-            }.bind(this)).catch(function (oError) {
-                sap.ui.core.BusyIndicator.hide();
-                console.error("Save Error:", oError);
-                MessageBox.error("Create Failed: " + (oError.message || "Backend Error"));
-            });
+                if (this._oCreateModel) {
+                    this._oCreateModel.setData({
+                        customerName: "",
+                        orderDate: "",
+                        items: [{ product_ID: "", quantity: 1, price: "" }]
+                    });
+                }
+
+                // Gọi hàm load lại dữ liệu Table
+                this._onRefresh();
+            }.bind(this))
         },
 
         onDelete: function () {
@@ -233,9 +224,9 @@ sap.ui.define([
             sap.ui.getCore().applyChanges();
 
             // Kiểm tra pending changes trên group cụ thể hoặc toàn model
-            if (oModel.hasPendingChanges("myUpdateGroup")) {
+            if (oModel.hasPendingChanges("mySaveGroup")) {
                 // Chỉ gửi Batch request cho group thủ công
-                oModel.submitBatch("myUpdateGroup").then(function () {
+                oModel.submitBatch("mySaveGroup").then(function () {
                     MessageToast.show("Changes saved successfully!");
                     oUIModel.setProperty("/editable", false);
                     this._onRefresh();
@@ -262,27 +253,6 @@ sap.ui.define([
             MessageToast.show("Data is refreshed");
         },
 
-        onPopinLayoutChanged: function () {
-            var PopinLayout = mobileLibrary.PopinLayout;
-            var oTable = this.byId("idProductsTable");
-            var oComboBox = this.byId("idPopinLayout");
-            var sPopinLayout = oComboBox.getSelectedKey();
-            switch (sPopinLayout) {
-                case "Block":
-                    oTable.setPopinLayout(PopinLayout.Block);
-                    break;
-                case "GridLarge":
-                    oTable.setPopinLayout(PopinLayout.GridLarge);
-                    break;
-                case "GridSmall":
-                    oTable.setPopinLayout(PopinLayout.GridSmall);
-                    break;
-                default:
-                    oTable.setPopinLayout(PopinLayout.Block);
-                    break;
-            }
-        },
-
         onSelect: function (oEvent) {
             var bSelected = oEvent.getParameter("selected"),
                 sText = oEvent.getSource().getText(),
@@ -299,23 +269,24 @@ sap.ui.define([
         },
 
         _onRefresh: function () {
-            var oModel = this.getView().getModel();
-            if (oModel) {
-                // Refresh lại dữ liệu OData V4
-                var aTableIds = ["idProductsTable", "idProductsTable1", "idProductsTable2"];
-
-                aTableIds.forEach(function (sId) {
-                    var oTable = this.byId(sId);
-                    if (oTable) {
-                        var oBinding = oTable.getBinding("items");
-                        // Kiểm tra binding tồn tại và đang ở trạng thái sẵn sàng
-                        if (oBinding && typeof oBinding.refresh === "function") {
-                            oBinding.refresh();
-                        }
-                    }
-                }.bind(this));
+            // 1. Refresh Model tổng OData V4 (Bắt buộc để đồng bộ lại cache)
+            var oMainModel = this.getView().getModel();
+            if (oMainModel && typeof oMainModel.refresh === "function") {
+                oMainModel.refresh();
             }
-        }
+
+            // 2. Refresh từng Binding của Table
+            var aTableIds = ["idProductsTable", "idProductsTable1", "idProductsTable2"];
+            aTableIds.forEach(function (sId) {
+                var oTable = this.byId(sId);
+                if (oTable) {
+                    var oBinding = oTable.getBinding("items");
+                    if (oBinding && typeof oBinding.refresh === "function") {
+                        oBinding.refresh();
+                    }
+                }
+            }.bind(this));
+        },
     });
     return TableController;
 });

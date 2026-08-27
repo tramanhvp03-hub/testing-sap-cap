@@ -1,38 +1,23 @@
 sap.ui.define([
-    'sap/ui/comp/library',
     'sap/ui/core/mvc/Controller',
     'sap/ui/model/type/String',
     'sap/m/ColumnListItem',
     'sap/m/Label',
     'sap/m/SearchField',
-    'sap/m/Token',
     'sap/ui/model/Filter',
     'sap/ui/model/FilterOperator',
-    'sap/ui/model/odata/v2/ODataModel',
     'sap/ui/table/Column',
     'sap/m/Column',
     'sap/m/Text',
     'sap/ui/comp/smartvariants/PersonalizableInfo',
-    'sap/ui/core/UIComponent',
     'sap/ui/core/format/DateFormat',
     'sap/m/MessageBox',
     'sap/m/MessageToast',
-    'sap/m/Dialog',
-    'sap/m/Input',
-    'sap/m/DatePicker',
-    'sap/m/Title',
-    'sap/m/Toolbar',
-    'sap/m/ToolbarSpacer',
-    'sap/m/Button',
-    'sap/m/Table',
-    'sap/m/ComboBox',
-    'sap/ui/core/ListItem',
     "sap/ui/core/Fragment",
     "sap/ui/model/json/JSONModel"
 
-], function (compLibrary, Controller, TypeString, ColumnListItem, Label, SearchField, Token, Filter, FilterOperator,
-    ODataModel, UIColumn, MColumn, Text, PersonalizableInfo, UIComponent, DateFormat, MessageBox, MessageToast, Dialog,
-    Input, DatePicker, Title, Toolbar, ToolbarSpacer, Button, Table, ComboBox, ListItem, Fragment, JSONModel) {
+], function (Controller, TypeString, ColumnListItem, Label, SearchField, Filter, FilterOperator, UIColumn,
+    MColumn, Text, PersonalizableInfo, DateFormat, MessageBox, MessageToast, Fragment, JSONModel) {
     "use strict";
 
     return Controller.extend("zsaleorder.controller.Saleorder", {
@@ -70,7 +55,7 @@ sap.ui.define([
             this.oSmartVariantManagement.initialise(function () { }, this.oFilterBar);
 
             var oRouter = this.getOwnerComponent().getRouter();
-            oRouter.getRoute("RouteSaleorder").attachPatternMatched(this._onRouteMatched, this);
+            oRouter.getRoute("RouteSaleorder").attachPatternMatched(this._onRefresh, this);
         },
 
         onExit: function () {
@@ -381,7 +366,7 @@ sap.ui.define([
         onAdd: function () {
             // Khởi tạo model dữ liệu cho form tạo mới
             var oNewOrderModel = new JSONModel({
-                customer: [{name: ""}],
+                customer: { name: "" },
                 orderDate: new Date().toISOString().substring(0, 10),
                 items: [
                     { product_ID: "", quantity: 1, price: 0 } // Dòng mặc định đầu tiên
@@ -457,8 +442,13 @@ sap.ui.define([
             const oRawData = oNewOrderModel.getData();
 
             // 1. Validate dữ liệu đầu vào
-            if (!oRawData.customer || !oRawData.orderDate) {
-                MessageBox.warning("Customer name and Order date cannot be empty!");
+            if (!oRawData.customer || !oRawData.customer.name || !oRawData.customer.name.trim()) {
+                MessageBox.warning("Customer name cannot be empty!");
+                return;
+            }
+
+            if (!oRawData.orderDate) {
+                MessageBox.warning("Order date cannot be empty!");
                 return;
             }
 
@@ -467,7 +457,7 @@ sap.ui.define([
                 return;
             }
 
-            // 2. Xây dựng Payload sạch (Flat Payload) từ JSONModel
+            // 2. Xây dựng Payload Items (Vì items là Composition nên hỗ trợ Deep Insert)
             const aCleanItems = [];
             for (let i = 0; i < oRawData.items.length; i++) {
                 const oItem = oRawData.items[i];
@@ -489,62 +479,58 @@ sap.ui.define([
                 });
             }
 
-          
-                    sap.ui.core.BusyIndicator.show(0);
+            sap.ui.core.BusyIndicator.show(0);
 
-                    // BƯỚC A: Tạo Customer trước
-                    const oCustomersBinding = oODataModel.bindList("/Customers");
-                    const oCustContext = oCustomersBinding.create({
-                        ID: String(Date.now()), // Sinh ID nếu backend không auto-gen GUID
-                        name: oRawData.customerName
-                    });
+            // BƯỚC A: Tạo Customer trước trong entity /Customers
+            const oCustBinding = oODataModel.bindList("/Customers");
+            const oCustContext = oCustBinding.create({
+                name: oRawData.customer.name.trim()
+            });
+            oODataModel.submitBatch("myUpdateGroup");//Bạn không thể tạo Order nếu chưa có customer_ID. Muốn Backend trả ID về, bắt buộc phải gọi submitBatch lần 1 để gửi thông tin Customer lên Server.
+            // BƯỚC B: Chờ Customer được tạo thành công trên Server (Backend tự sinh UUID cho ID)
+            oCustContext.created().then(() => {
+                // Lấy UUID thật từ Backend vừa trả về
+                const sGeneratedCustomerID = oCustContext.getProperty("ID");
 
-                    // BƯỚC B: Chờ Customer tạo xong -> Tạo Order đính kèm Payload Items
-                    oCustContext.created().then(() => {
-                        const sCustomerID = oCustContext.getProperty("name");
+                const oPayload = {
+                    orderDate: oRawData.orderDate,
+                    customer_ID: sGeneratedCustomerID, // Gán khóa ngoại customer_ID
+                    items: aCleanItems                 // Deep Insert cho items (Composition)
+                };
 
-                        const oPayload = {
-                            ID: String(Date.now() + 1),
-                            customer: String(sCustomerID),
-                            orderDate: oRawData.orderDate,
-                            items: aCleanItems // Gửi kèm danh sách items dạng Deep Insert
-                        };
+                const oOrdersBinding = oODataModel.bindList("/Orders");
+                const oOrderContext = oOrdersBinding.create(oPayload);
+                oODataModel.submitBatch("myUpdateGroup");//Vì lệnh create Order này diễn ra sau khi lô Batch 1 đã gửi xong, nên dữ liệu Order này rơi vào một lượt chờ mới nên bắt buộc phải gọi submitBatch lần 2 để đẩy nốt lệnh tạo Order lên Server.
 
-                        const oOrdersBinding = oODataModel.bindList("/Orders");
-                        const oOrderContext = oOrdersBinding.create(oPayload);
+                return oOrderContext.created();
+            }).then(() => {
+                sap.ui.core.BusyIndicator.hide();
+                MessageToast.show("Sale Order created successfully!");
 
-                        return oOrderContext.created();
-                    }).then(() => {
-                        sap.ui.core.BusyIndicator.hide();
-                        MessageToast.show("Sale Order created successfully!");
+                // Đóng Dialog & Reset Form
+                this.onCloseCreateDialog();
+                oNewOrderModel.setData({
+                    customer: { name: "" },
+                    orderDate: new Date().toISOString().substring(0, 10),
+                    items: [{ product_ID: "", quantity: 1, price: 0 }]
+                });
 
-                        // Đóng Dialog & Đặt lại dữ liệu Form
-                        this.onCloseCreateDialog();
-                        oNewOrderModel.setData({
-                            customerName: "",
-                            orderDate: new Date().toISOString().substring(0, 10),
-                            items: [{ product_ID: "", quantity: 1, price: 0 }]
-                        });
+                // Refresh lại Table danh sách chính
+                this._onRefresh();
 
-                        // Refresh lại Table chính
-                        this._onRefresh();
+            }).catch((oError) => {
+                sap.ui.core.BusyIndicator.hide();
+                console.error("Save Error:", oError);
 
-                    }).catch((oError) => {
-                        sap.ui.core.BusyIndicator.hide();
-                        console.error("Save Error:", oError);
-                        MessageBox.error("Create Sale Order Failed: " + (oError.message || "Backend error"));
-                    });
-                
-            ;
+                // Hủy transient context nếu tạo thất bại
+                if (oCustContext && oCustContext.isTransient()) {
+                    oCustContext.delete();
+                }
+
+                MessageBox.error("Create Sale Order Failed: " + (oError.message || "Backend error"));
+            });
         },
-
-        _onRefresh: function () {
-            var oMainTable = this.byId("idProductsTable") || this.byId("table");
-            if (oMainTable && oMainTable.getBinding("items")) {
-                oMainTable.getBinding("items").refresh();
-            }
-        },
-
+        
         onDelete: function () {
             var oTable = this.byId("table");
             var aSelectedItems = oTable.getSelectedItems();
@@ -622,11 +608,14 @@ sap.ui.define([
             });
         },
 
-        _onRouteMatched: function () {
+        _onRefresh: function () {
+            const oModel = this.getView().getModel();
             var oTable = this.byId("table");
             if (oTable && oTable.getBinding("items")) {
                 oTable.getBinding("items").refresh();
+                oModel.refresh("$auto");
             }
-        },
+        }
+
     });
 });

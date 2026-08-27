@@ -14,11 +14,11 @@ sap.ui.define([
         onInit: function () {
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("RouteDetailpage").attachPatternMatched(this._onObjectMatched, this);
-
             var oUIModel = new JSONModel({
                 editable: false
             });
-            this.getView().setModel(oUIModel, "ui");
+
+            this.getOwnerComponent().setModel(oUIModel, "ui");
         },
 
         onNavBack: function () {
@@ -81,40 +81,35 @@ sap.ui.define([
             }
         },
 
-        onDeleteCurrentOrder: function () {
-            var oContext = this.getView().getBindingContext();
+        onDeleteItem: function (oEvent) {
+            // 1. Lấy context của đúng dòng vừa bấm nút thùng rác
+            var oButton = oEvent.getSource();
+            var oItemContext = oButton.getBindingContext();
 
-            if (!oContext) {
-                MessageBox.error("No Order selected to delete!");
+            if (!oItemContext) {
+                MessageBox.warning("No item to delete!");
                 return;
             }
 
-            var sOrderId = oContext.getProperty("ID");
-            var that = this; // Giữ tham chiếu tới Controller
+            var that = this;
+            var sProductName = oItemContext.getProperty("product/name") || "sản phẩm này";
 
-            MessageBox.confirm("Are you sure you want to delete Sale Order " + sOrderId + "?", {
-                title: "Confirm Delete",
+            MessageBox.confirm("Do you want to delete item " + sProductName + "?", {
+                title: "Delete Confirm",
                 onClose: function (sAction) {
                     if (sAction !== MessageBox.Action.OK && sAction !== "OK") {
                         return;
                     }
 
-                    // Gọi hàm xóa dạng Promise
-                    oContext.delete("$auto").then(function () {
-                        MessageToast.show("Sale Order deleted successfully!");
-                        that.getOwnerComponent().getRouter().navTo("RouteSaleorder", {}, true);
+                    // 2. Thực hiện xóa dòng item hiện tại
+                    oItemContext.delete("$auto").then(function () {
+                        MessageToast.show("Deleted successfully!");
+
+                        // Refresh lại binding của View để cập nhật lại Header/Total Amount
+                        that.getView().getModel().refresh();
                     }).catch(function (oError) {
                         console.error("Delete Error:", oError);
-
-                        if (oError.status === 404 || (oError.message && oError.message.includes("Not Found"))) {
-                            MessageBox.warning("This order no longer exists on server. Returning to main page...", {
-                                onClose: function () {
-                                    that.getOwnerComponent().getRouter().navTo("RouteSaleorder", {}, true);
-                                }
-                            });
-                        } else {
-                            MessageBox.error("Delete failed: " + (oError.message || "Unknown error"));
-                        }
+                        MessageBox.error("Delete failed: " + (oError.message || "Error"));
                     });
                 }
             });

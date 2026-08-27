@@ -5,7 +5,7 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:layout="sap.ui.layout" height="100%">
-	<f:DynamicPage id="dynamicPageId" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding" toggleHeaderOnTitleClick="{path: '/titleClickable', targetType: 'any'}">
+	<f:DynamicPage id="dynamicPageId" stickySubheaderProvider="iconTabBar" class="sapUiNoContentPadding" toggleHeaderOnTitleClick="true">
 		<!-- DynamicPage Title -->
 		<f:title>
 			<f:DynamicPageTitle id="_IDGenDynamicPageTitle">
@@ -39,17 +39,6 @@
 										<ToolbarSpacer id="_IDGenToolbarSpacer" />
 										<Button id="_IDGenButton5" text="Delete" press="onDelete" visible="{= !${ui>/editable} }" type="Reject" icon="sap-icon://delete"/>
 										<Button id="_IDGenButton2" text="Refresh" visible="{= !${ui>/editable} }" icon="sap-icon://refresh" press=".onRefreshpress" />
-										<ComboBox id="idPopinLayout" placeholder="Popin layout options" change=".onPopinLayoutChanged" >
-											<items>
-												<core:Item id="_IDGenItem" text="Block" key="Block"/>
-												<core:Item id="_IDGenItem1" text="Grid Large" key="GridLarge"/>
-												<core:Item id="_IDGenItem2" text="Grid Small" key="GridSmall"/>
-											</items>
-										</ComboBox>
-										<Label id="_IDGenLabel" text="Sticky options:" />
-										<CheckBox id="_IDGenCheckBox" text="ColumnHeaders" select=".onSelect"/>
-										<CheckBox id="_IDGenCheckBox1" text="HeaderToolbar" select=".onSelect"/>
-										<CheckBox id="_IDGenCheckBox2" text="InfoToolbar" select=".onSelect"/>
 									</content>
 								</OverflowToolbar>
 							</headerToolbar>
@@ -100,18 +89,6 @@
 										<Title id="_IDGenTitle3" text="Product Information" level="H2"/>
 										<ToolbarSpacer id="_IDGenToolbarSpacer2" />
 										<Button id="_IDGenButton14" text="Refresh" visible="{= !${ui>/editable} }" icon="sap-icon://refresh" press=".onRefreshpress"/>
-										<ComboBox id="idPopinLayout2" placeholder="Popin layout options" change=".onPopinLayoutChanged">
-											<items>
-												<core:Item id="_IDGenItem7" text="Block" key="Block"/>
-												<core:Item id="_IDGenItem6" text="Grid Large" key="GridLarge"/>
-												<core:Item id="_IDGenItem8" text="Grid Small" key="GridSmall"/>
-											</items>
-										</ComboBox>
-										<Label id="_IDGenLabel6" text="Sticky options:" />
-										<CheckBox id="_IDGenCheckBox13" text="ColumnHeaders" select=".onSelect"/>
-										<CheckBox id="_IDGenCheckBox14" text="HeaderToolbar" select=".onSelect"/>
-										<CheckBox id="_IDGenCheckBox15" text="InfoToolbar" select=".onSelect"/>
-										<ToggleButton id="toggleInfoToolbar2" text="Hide/Show InfoToolbar" press=".onToggleInfoToolbar" />
 									</content>
 								</OverflowToolbar>
 							</headerToolbar>
@@ -163,18 +140,6 @@
 										<Title id="_IDGenTitle2" text="Customer Infomation" level="H2"/>
 										<ToolbarSpacer id="_IDGenToolbarSpacer1" />
 										<Button id="_IDGenButton12" text="Refresh" visible="{= !${ui>/editable} }" icon="sap-icon://refresh" press=".onRefreshpress"/>
-										<ComboBox id="idPopinLayout1" placeholder="Popin layout options" change=".onPopinLayoutChanged">
-											<items>
-												<core:Item id="_IDGenItem4" text="Block" key="Block"/>
-												<core:Item id="_IDGenItem11" text="Grid Large" key="GridLarge"/>
-												<core:Item id="_IDGenItem12" text="Grid Small" key="GridSmall"/>
-											</items>
-										</ComboBox>
-										<Label id="_IDGenLabel5" text="Sticky options:" />
-										<CheckBox id="_IDGenCheckBox10" text="ColumnHeaders" select=".onSelect"/>
-										<CheckBox id="_IDGenCheckBox11" text="HeaderToolbar" select=".onSelect"/>
-										<CheckBox id="_IDGenCheckBox12" text="InfoToolbar" select=".onSelect"/>
-										<ToggleButton id="toggleInfoToolbar1" text="Hide/Show InfoToolbar" press=".onToggleInfoToolbar" />
 									</content>
 								</OverflowToolbar>
 							</headerToolbar>

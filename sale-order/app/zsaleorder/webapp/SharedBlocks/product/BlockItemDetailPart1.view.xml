@@ -1,7 +1,9 @@
 <mvc:View xmlns:mvc="sap.ui.core.mvc"
     xmlns:forms="sap.ui.layout.form"
     xmlns="sap.m"
-    xmlns:core="sap.ui.core" core:require="{ formatter: 'zsaleorder/model/formatter' }">
+    xmlns:core="sap.ui.core" 
+    controllerName="zsaleorder.controller.Detailpage"
+    core:require="{ formatter: 'zsaleorder/model/formatter' }">
     <Table id="itemsTable" items="{items}">
         <columns>
             <Column id="_IDGenColumn9">
@@ -16,6 +18,12 @@
             <Column id="_IDGenColumn12">
                 <Text id="_IDGenText14" text="Amount" />
             </Column>
+             <Column id="_IDGenColumn21">
+                <Text id="_IDGenText40" text="Created At" />
+            </Column>
+            <Column id="colAction" hAlign="End">
+                <Text id="_IDGenText30" text="Action" />
+            </Column>
         </columns>
         <items>
             <ColumnListItem id="_IDGenColumnListItem2">
@@ -26,7 +34,14 @@
                                                     }"
                                              editable="{ui>/editable}" />
                     <Text id="_IDGenText16" text="{product/price}" />
-                    <Text id="_IDGenText17" text="{amount}" />
+                    <Text id="_IDGenText17" text="{amount}"/>
+            		<Text id="_IDGenText32"
+			text="{path: 'createdAt', formatter: 'formatter.formatCreatedAt'}"/>
+                    <Button id="btnDeleteItem" 
+                            type="Reject" 
+                            icon="sap-icon://delete" 
+                            press=".onDeleteItem" 
+                            visible="{= !${ui>/editable}}" />
                 </cells>
             </ColumnListItem>
         </items>

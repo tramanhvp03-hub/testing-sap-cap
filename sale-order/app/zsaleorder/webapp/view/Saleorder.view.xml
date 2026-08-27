@@ -77,8 +77,8 @@
             <Table id="table" itemPress="onNavigate" mode="SingleSelectLeft" growingThreshold="10" items="{
 						path: '/Orders',
                         parameters: {
-                              $expand: 'items($expand=product),customer'
-        }
+                        $expand: 'customer($select=ID,name),items($expand=product($select=ID,name))'
+    }
 					}">
                 <headerToolbar>
                     <Toolbar id="_IDGenToolbar1" design="Solid">
