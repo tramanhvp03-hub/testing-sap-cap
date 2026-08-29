@@ -14,6 +14,7 @@ sap.ui.define([
         onInit: function () {
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("RouteDetailpage").attachPatternMatched(this._onObjectMatched, this);
+           
             var oUIModel = new JSONModel({
                 editable: false
             });
@@ -92,7 +93,7 @@ sap.ui.define([
             }
 
             var that = this;
-            var sProductName = oItemContext.getProperty("product/name") || "sản phẩm này";
+            var sProductName = oItemContext.getProperty("product/name") ;
 
             MessageBox.confirm("Do you want to delete item " + sProductName + "?", {
                 title: "Delete Confirm",

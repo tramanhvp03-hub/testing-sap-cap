@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "type": "commonjs",
   "dependencies": {
-    "@sap/cds": "^10"
+    "@sap/cds": "^10",
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/sqlite": "^3",
+    "@sap/cds-dk": "^10",
     "cds-plugin-ui5": "^0.13.0"
   },
   "scripts": {
@@ -19,5 +21,12 @@
   ],
   "sapux": [
     "app/zsaleorder_element"
-  ]
+  ],
+  "cds": {
+    "requires": {
+      "[production]": {
+        "auth": "xsuaa"
+      }
+    }
+  }
 }
